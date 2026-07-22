@@ -324,7 +324,25 @@ h3{font-size:18.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 7px}
 .faq[open] summary::after{transform:rotate(45deg)}
 .faq p{color:var(--cinza);font-size:15px;margin:0 0 22px;max-width:720px}
 
-.fecho{text-align:center;padding-bottom:130px}
+/* lista de avisos (quem não compra hoje) */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.aviso{display:grid;gap:26px;background:var(--creme);border:1px solid var(--borda);border-radius:22px;padding:28px;margin-bottom:120px}
+@media (min-width:820px){.aviso{grid-template-columns:1.1fr 1fr;align-items:center;padding:34px}}
+.aviso p{color:var(--cinza);font-size:15px;margin:0}
+.aviso form{display:flex;flex-direction:column;gap:10px}
+.aviso input{
+  width:100%;padding:14px 16px;border:1px solid var(--borda);border-radius:12px;background:#fff;
+  font:400 15px 'Inter',sans-serif;color:var(--escuro);outline:0
+}
+.aviso input:focus{border-color:var(--salvia)}
+.aviso input::placeholder{color:#9AA093}
+.aviso .botao{padding:15px}
+.aviso .recado{font-size:13.5px;min-height:18px;margin:2px 0 0;text-align:center}
+.aviso .recado.ok{color:var(--salvia);font-weight:600}
+.aviso .recado.erro{color:#B4776B;font-weight:600}
+.aviso.pronto form{display:none}
+
+.fecho{text-align:center;padding-bottom:20px}
 .fecho .botao{max-width:400px;margin:0 auto}
 footer{position:relative;z-index:1;text-align:center;padding:0 20px 36px;color:var(--cinza);font-size:13px}
 footer a{color:var(--salvia)}
@@ -617,10 +635,27 @@ footer a{color:var(--salvia)}
       <details class="faq"><summary>O acesso vence?</summary><p>Não. É vitalício, e as atualizações que eu fizer no curso entram pra você sem cobrar nada a mais.</p></details>
     </div>
 
-    <div class="fecho aparece" style="margin-top:62px">
+    <div class="fecho aparece" style="margin-top:62px;padding-bottom:56px">
       <h2 style="font-size:clamp(26px,4.4vw,36px)">Bora tirar o seu direct <em>do modo manual?</em></h2>
       <p class="sub" style="margin:0 auto 28px">R$197, uma vez só, com 7 dias de garantia.</p>
-      <a class="botao" href="#" target="_blank" rel="noopener" data-cta>Quero o Direct no Automático</a>
+      <a class="botao" style="max-width:400px;margin:0 auto" href="#" target="_blank" rel="noopener" data-cta>Quero o Direct no Automático</a>
+    </div>
+
+    <!-- captura de quem não vai comprar hoje -->
+    <div class="aviso aparece" id="listaBox">
+      <div>
+        <span class="pill">ainda não é agora?</span>
+        <h3 style="font-size:clamp(21px,3.2vw,26px);letter-spacing:-.03em;margin:14px 0 8px">Deixa que eu <em class="serif">te aviso</em></h3>
+        <p>Se você quer fazer, mas não é esse o momento, me deixa o seu e-mail. Eu aviso quando tiver aula nova, quando eu abrir alguma condição especial e quando sair a aula do domínio próprio. Sem spam, e você sai da lista quando quiser.</p>
+      </div>
+      <form id="formLista" novalidate>
+        <label class="sr" for="leadNome">Seu nome</label>
+        <input id="leadNome" name="nome" type="text" placeholder="Seu nome (opcional)" autocomplete="given-name">
+        <label class="sr" for="leadEmail">Seu e-mail</label>
+        <input id="leadEmail" name="email" type="email" placeholder="Seu melhor e-mail" autocomplete="email" required>
+        <button class="botao" type="submit" id="leadBtn">Quero ser avisada</button>
+        <p class="recado" id="leadRecado" role="status" aria-live="polite"></p>
+      </form>
     </div>
   </div>
 </section>
@@ -630,7 +665,7 @@ footer a{color:var(--salvia)}
   Dúvida antes de comprar? Me chama no direct: <a href="https://instagram.com/eilaradam" target="_blank" rel="noopener">@eilaradam</a><br>
   <span style="font-size:12px;opacity:.85;display:block;margin-top:10px;max-width:620px;margin-left:auto;margin-right:auto">
     Pagamento processado pela Kiwify, com garantia de 7 dias prevista no Código de Defesa do Consumidor.
-    Este site mede visitas e cliques de forma anônima, só pra eu saber o que funciona: não guardo nome, e-mail nem telefone de quem visita.
+    Este site mede visitas e cliques de forma anônima, só pra eu saber o que funciona. Só guardo o seu e-mail se você mesma escrever ele ali em cima, e é só pra te avisar sobre o curso: nunca vendo nem passo pra ninguém, e você pode pedir pra sair da lista quando quiser.
     O curso ensina a construir um sistema próprio usando as ferramentas oficiais do Instagram, respeitando as regras da Meta. Resultado depende do seu conteúdo e da sua aplicação.
   </span>
 </footer>
@@ -906,6 +941,43 @@ setTimeout(()=>toca('inicio'),600);
   document.querySelectorAll('[data-cta]').forEach(a=>{
     const onde = a.closest('.barra') ? 'barra' : (a.closest('.preco-caixa') ? 'preco' : 'final');
     a.addEventListener('click',()=>grava({event_type:'clique',cta:onde,to_checkout:CHECKOUT!=='#'}));
+  });
+
+  /* ---- lista de avisos: guarda o e-mail de quem não vai comprar hoje ---- */
+  const form=document.getElementById('formLista'),
+        recado=document.getElementById('leadRecado'),
+        btnLead=document.getElementById('leadBtn');
+
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const email=document.getElementById('leadEmail').value.trim().toLowerCase();
+    const nome=document.getElementById('leadNome').value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){
+      recado.className='recado erro'; recado.textContent='Esse e-mail parece incompleto, confere pra mim?';
+      return;
+    }
+    btnLead.disabled=true; btnLead.textContent='Guardando...';
+    recado.className='recado'; recado.textContent='';
+    try{
+      const r=await fetch('https://mfrmnquvwwuxraqgemyh.supabase.co/rest/v1/direct_leads',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','apikey':CHAVE,'Authorization':'Bearer '+CHAVE,'Prefer':'return=minimal'},
+        body:JSON.stringify({nome:nome||null,email:email,session_id:visitante,referrer:document.referrer||null})
+      });
+      /* 409 = e-mail já estava na lista, o que pra ela é a mesma coisa que deu certo */
+      if(r.ok||r.status===409){
+        document.getElementById('listaBox').classList.add('pronto');
+        recado.className='recado ok';
+        recado.textContent='Prontinho, anotei aqui 🫶 Te aviso por e-mail.';
+        grava({event_type:'lead'});
+      }else{
+        throw new Error('status '+r.status);
+      }
+    }catch(err){
+      recado.className='recado erro';
+      recado.textContent='Deu ruim aqui do meu lado. Me chama no direct @eilaradam que eu anoto na mão.';
+      btnLead.disabled=false; btnLead.textContent='Quero ser avisada';
+    }
   });
 })();
 </script>
