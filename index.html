@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Direct no Automático · por @eilaradam</title>
-<meta name="description" content="O curso que te ensina a construir a sua própria automação de mensagens no Instagram, do zero, sem pagar mensalidade de ferramenta.">
+<meta name="description" content="O curso que te ensina a construir a sua própria automação de mensagens no Instagram, do zero. O sistema fica seu e não tem mensalidade. A única ferramenta paga é o Claude.">
 <link rel="canonical" href="https://direct.laradam.com/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Direct no Automático">
 <meta property="og:url" content="https://direct.laradam.com/">
 <meta property="og:title" content="Direct no Automático · por @eilaradam">
-<meta property="og:description" content="Automação de mensagens no Instagram, construída por você. Sem mensalidade e sem saber programar.">
+<meta property="og:description" content="Automação de mensagens no Instagram, construída por você com o Claude. O sistema fica seu e não tem mensalidade.">
 <meta property="og:image" content="https://direct.laradam.com/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Direct no Automático, curso gravado por @eilaradam">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Direct no Automático · por @eilaradam">
-<meta name="twitter:description" content="Automação de mensagens no Instagram, construída por você. Sem mensalidade e sem saber programar.">
+<meta name="twitter:description" content="Automação de mensagens no Instagram, construída por você com o Claude. O sistema fica seu e não tem mensalidade.">
 <meta name="twitter:image" content="https://direct.laradam.com/img/og.jpg">
 <meta name="theme-color" content="#F3F3ED">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%232C3328'/%3E%3Cpath d='M32 15c-10.5 0-19 6.8-19 15.2 0 4.8 2.8 9.1 7.2 11.9L18 51l9.9-5.2c1.3.2 2.7.4 4.1.4 10.5 0 19-6.8 19-15.2S42.5 15 32 15z' fill='%238A9E7B'/%3E%3C/svg%3E">
@@ -200,8 +200,11 @@ h3{font-size:18.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 7px}
 .cartao{background:var(--creme-claro);border:1px solid var(--borda);border-radius:20px;padding:24px}
 .cartao p{color:var(--cinza);font-size:14.5px;margin:0}
 .grade{display:grid;gap:14px}
-@media (min-width:720px){.grade.dois{grid-template-columns:1fr 1fr}.grade.quatro{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:720px){.grade.dois{grid-template-columns:1fr 1fr}.grade.quatro{grid-template-columns:repeat(2,1fr)}.grade.tres{grid-template-columns:repeat(3,1fr)}}
 @media (min-width:960px){.grade.quatro{grid-template-columns:repeat(4,1fr)}}
+.claude-card{background:#fff;border-color:#E7D3C9}
+.claude-card img{display:block;margin-bottom:13px}
+.ico{width:34px;height:34px;display:block;margin-bottom:13px;color:var(--salvia)}
 .num{width:34px;height:34px;border-radius:50%;background:var(--salvia-fundo);color:var(--escuro);display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:17px;margin-bottom:14px}
 
 /* o fluxo */
@@ -395,12 +398,12 @@ footer a{color:var(--salvia)}
     <span class="pill">curso gravado</span>
     <h1>Direct<em>no automático</em></h1>
     <hr class="tracinho">
-    <p>Automação de mensagens no Instagram, construída por você, do zero, sem pagar mensalidade de ferramenta nenhuma. E sem saber programar.</p>
+    <p>Automação de mensagens no Instagram, construída por você, do zero. O sistema fica seu e não tem mensalidade. E não precisa saber programar.</p>
     <p class="com-claude"><img src="img/claude.svg" alt="" width="18" height="18" decoding="async"><span>construído com o <b>Claude</b>, sem você escrever código</span></p>
     <div class="mini">
       <span><b>11</b> aulas gravadas</span>
       <span><b>33 mil</b> caracteres de prompt</span>
-      <span><b>R$0</b> de mensalidade</span>
+      <span><b>R$0</b> de mensalidade no sistema</span>
     </div>
   </div>
 
@@ -502,9 +505,33 @@ footer a{color:var(--salvia)}
       </div>
     </div>
 
-    <div class="cartao aparece" style="margin-top:34px">
-      <h3>E o custo mensal? Zero</h3>
-      <p>Tudo roda em ferramentas com plano grátis: Supabase (o banco e o cérebro), GitHub Pages (o painel) e a API do Instagram, que não cobra nada. Uma ferramenta pronta custa de R$100 a R$300 por mês, todo mês, pra sempre.</p>
+    <div class="aparece" style="margin-top:64px">
+      <span class="pill">o que você precisa</span>
+      <h2 style="font-size:clamp(25px,4vw,34px)">Uma ferramenta só: <em>o Claude</em></h2>
+      <p class="sub">Nada de empilhar assinatura. Pra construir o sistema inteiro, a única ferramenta paga do caminho é o Claude, a partir do plano Pro. O resto é de graça.</p>
+    </div>
+
+    <div class="grade tres aparece">
+      <div class="cartao claude-card">
+        <img src="img/claude.svg" alt="" width="34" height="34" loading="lazy" decoding="async">
+        <h3>Claude, plano Pro</h3>
+        <p>É ele que escreve o código do sistema inteiro, seguindo o prompt do curso. Hoje o Pro custa US$20 por mês (o preço é em dólar, então confira no site do Claude na hora de assinar). É assinatura mensal: quando o seu sistema estiver pronto, você cancela se quiser.</p>
+      </div>
+      <div class="cartao">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r=".9" fill="currentColor" stroke="none"/></svg>
+        <h3>Instagram profissional</h3>
+        <p>Conta comercial ou de criador de conteúdo. Trocar leva 2 minutos e não custa nada. Conta pessoal não pode usar a API, é regra do Instagram.</p>
+      </div>
+      <div class="cartao">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 19.5h20"/></svg>
+        <h3>Um computador</h3>
+        <p>Windows ou Mac, tanto faz. A construção é feita nele. Depois que o sistema está no ar, você mexe no painel pelo celular numa boa.</p>
+      </div>
+    </div>
+
+    <div class="cartao aparece" style="margin-top:16px">
+      <h3>E o sistema pronto, quanto custa por mês?</h3>
+      <p>Nada. Depois de construído, ele roda no Supabase (o banco e o cérebro), no GitHub Pages (o painel) e na API do Instagram, todos em plano grátis. Uma ferramenta de automação pronta cobraria de R$100 a R$300 todo mês, pra sempre.</p>
     </div>
 
     <div class="quem-sou aparece">
@@ -573,10 +600,11 @@ footer a{color:var(--salvia)}
         <span class="tag-lado">construindo o seu</span>
         <ul>
           <li><b>R$197 uma vez só</b>, e nunca mais</li>
-          <li>R$0 de mensalidade, pra sempre</li>
+          <li>O sistema roda com <b>R$0 de mensalidade</b>, pra sempre</li>
           <li>Os leads ficam no <b>seu</b> banco de dados</li>
           <li>Sem limite de contatos: cresça à vontade</li>
           <li>O sistema é seu. Ninguém tira de você</li>
+          <li>Pra construir, só o Claude Pro (e depois dá pra cancelar)</li>
         </ul>
       </div>
     </div>
@@ -637,9 +665,9 @@ footer a{color:var(--salvia)}
     </div>
 
     <div class="aparece">
-      <details class="faq"><summary>O que é o Claude?</summary><p><img src="img/claude.svg" alt="" width="17" height="17" style="vertical-align:-3px;margin-right:5px" loading="lazy"> É uma inteligência artificial da Anthropic, no mesmo estilo do ChatGPT, só que muito boa em escrever código. Você conversa com ela em português e ela escreve os arquivos do sistema pra você. No curso, é o Claude que constrói tudo seguindo o prompt de 33 mil caracteres, enquanto você conduz e acompanha pelas aulas. Criar a conta é grátis e leva dois minutos.</p></details>
+      <details class="faq"><summary>O que é o Claude?</summary><p><img src="img/claude.svg" alt="" width="17" height="17" style="vertical-align:-3px;margin-right:5px" loading="lazy"> É uma inteligência artificial da Anthropic, no mesmo estilo do ChatGPT, só que muito boa em escrever código. Você conversa com ela em português e ela escreve os arquivos do sistema pra você. No curso, é o Claude que constrói tudo seguindo o prompt de 33 mil caracteres, enquanto você conduz e acompanha pelas aulas. Você vai precisar dele <b>a partir do plano Pro</b> (hoje US$20 por mês): é a única ferramenta paga do caminho.</p></details>
       <details class="faq"><summary>Preciso saber programar?</summary><p>Não. Eu também não sei. Quem escreve o código é o Claude, seguindo o que você pede. O curso te ensina a conduzir o Claude passo a passo: você diz o que quer, ele escreve, você cola no lugar certo. Todo termo técnico vem traduzido com analogia de gente normal.</p></details>
-      <details class="faq"><summary>Preciso pagar mais alguma coisa além do curso?</summary><p>Não. Todas as ferramentas usadas têm plano grátis, e o que a gente monta cabe nesse plano com folga. Só se um dia o seu volume crescer muito é que você poderia querer subir de plano, e aí já seria um bom problema.</p></details>
+      <details class="faq"><summary>Preciso pagar mais alguma coisa além do curso?</summary><p>Uma coisa só: o <b>Claude, a partir do plano Pro</b> (hoje US$20 por mês, cobrado em dólar). É ele que escreve o código do sistema pra você, e é a única ferramenta paga do caminho todo. É assinatura mensal, então quando o seu sistema estiver pronto você pode cancelar. Todo o resto (Supabase, GitHub Pages e a API do Instagram) roda no plano grátis, e o sistema já no ar não tem mensalidade nenhuma.</p></details>
       <details class="faq"><summary>Funciona em qualquer conta do Instagram?</summary><p>Precisa ser conta profissional (comercial ou de criador de conteúdo). Trocar leva 2 minutos e é de graça. Conta pessoal não pode usar a API, isso é regra do Instagram.</p></details>
       <details class="faq"><summary>Preciso de computador?</summary><p>Sim. A construção é feita no computador (Windows ou Mac, tanto faz). Depois de pronto, você mexe no painel pelo celular numa boa.</p></details>
       <details class="faq"><summary>Quanto tempo leva pra colocar no ar?</summary><p>Seguindo o passo a passo, dá pra ter tudo funcionando em um fim de semana. A minha primeira vez levou semanas porque eu apanhei na parte do Meta. Todas as ciladas já estão resolvidas dentro do curso.</p></details>
