@@ -955,7 +955,7 @@ setTimeout(()=>toca('inicio'),600);
         headers:{'Content-Type':'application/json','apikey':CHAVE,'Authorization':'Bearer '+CHAVE,'Prefer':'return=minimal'},
         body:JSON.stringify(Object.assign({
           session_id:visitante,
-          page_path:location.pathname,
+          page_path:location.pathname+location.search,   /* guarda o ?ref=dm pra saber de onde veio */
           referrer:document.referrer||null,
           user_agent:navigator.userAgent
         },dados))
