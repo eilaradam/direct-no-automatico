@@ -5,9 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Direct no Automático · por @eilaradam</title>
 <meta name="description" content="O curso que te ensina a construir a sua própria automação de mensagens no Instagram, do zero, sem pagar mensalidade de ferramenta.">
-<meta property="og:title" content="Direct no Automático">
-<meta property="og:description" content="Automação de mensagens no Instagram, feita por você. Sem mensalidade, sem ferramenta gringa.">
+<link rel="canonical" href="https://direct.laradam.com/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Direct no Automático">
+<meta property="og:url" content="https://direct.laradam.com/">
+<meta property="og:title" content="Direct no Automático · por @eilaradam">
+<meta property="og:description" content="Automação de mensagens no Instagram, construída por você. Sem mensalidade e sem saber programar.">
+<meta property="og:image" content="https://direct.laradam.com/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Direct no Automático, curso gravado por @eilaradam">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Direct no Automático · por @eilaradam">
+<meta name="twitter:description" content="Automação de mensagens no Instagram, construída por você. Sem mensalidade e sem saber programar.">
+<meta name="twitter:image" content="https://direct.laradam.com/img/og.jpg">
 <meta name="theme-color" content="#F3F3ED">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%232C3328'/%3E%3Cpath d='M32 15c-10.5 0-19 6.8-19 15.2 0 4.8 2.8 9.1 7.2 11.9L18 51l9.9-5.2c1.3.2 2.7.4 4.1.4 10.5 0 19-6.8 19-15.2S42.5 15 32 15z' fill='%238A9E7B'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
@@ -61,30 +75,48 @@ body{
 /* ==========================================================================
    TELA 1
    ========================================================================== */
+/* ---- base: celular (a conversa ocupa a tela toda) ---- */
 .capa{position:relative;z-index:1;min-height:100dvh;display:flex;align-items:center;justify-content:center;gap:48px;padding:0;max-width:1280px;margin:0 auto}
-@media (min-width:560px){.capa{padding:26px 24px 34px}}
-@media (min-width:1000px){.capa{justify-content:space-between;padding:26px 48px 34px}}
 
-.pitch{max-width:560px;display:none;flex:1 1 auto}
-.pitch h1{font-size:clamp(58px,5.8vw,82px);line-height:.96;letter-spacing:-.045em;font-weight:800;margin:18px 0 0}
+/* no celular o título existe só pra leitor de tela e pro Google, porque ali a conversa É a capa */
+.pitch{max-width:560px;flex:1 1 auto;position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.pitch h1{line-height:.96;letter-spacing:-.045em;font-weight:800;margin:18px 0 0;font-size:clamp(44px,7vw,60px)}
 .pitch h1 em{display:block;font-family:var(--serif);font-style:italic;font-weight:400;color:var(--salvia);letter-spacing:-.012em;font-size:.97em;margin-top:4px}
-.pitch p{color:var(--cinza);font-size:19px;line-height:1.55;margin:0 0 30px;max-width:460px}
-.pitch .mini{display:flex;gap:26px;font-size:14.5px;color:var(--cinza);flex-wrap:wrap}
+.pitch p{color:var(--cinza);line-height:1.55;font-size:16.5px;margin:0 0 18px;max-width:520px}
+.pitch .mini{display:flex;gap:20px;font-size:13.5px;color:var(--cinza);flex-wrap:wrap}
 .pitch .mini b{color:var(--escuro);font-weight:700}
-.pitch .tracinho{margin:26px 0}
-@media (min-width:1000px){.pitch{display:block}}
 
-/* o celular */
 .fone{
   position:relative;width:100%;height:100dvh;background:var(--branco);
   display:flex;flex-direction:column;overflow:hidden;flex:none;
 }
+
+/* ---- do tablet pra cima: o celular vira maquete e o título aparece ---- */
 @media (min-width:560px){
+  .capa{padding:26px 24px 34px}
   .fone{
-    width:340px;height:min(680px,calc(100dvh - 80px));
+    width:340px;max-width:100%;height:min(640px,calc(100dvh - 60px));
     border-radius:38px;border:1px solid var(--borda);
     box-shadow:0 40px 80px -34px rgba(44,51,40,.34),0 0 0 9px #FFF,0 0 0 10px var(--borda);
   }
+}
+@media (min-width:640px){
+  .capa{flex-direction:column;gap:22px;padding:22px 24px 26px}
+  .pitch{position:static;width:auto;height:auto;overflow:visible;clip-path:none;white-space:normal;text-align:center;max-width:600px}
+  .pitch p{display:none}          /* no tablet o espaço é curto: fica só o título e os números */
+  .pitch .tracinho{margin:16px auto}
+  .pitch .mini{justify-content:center}
+  .fone{height:max(380px,min(600px,calc(100dvh - 250px)))}
+}
+/* ---- desktop: título de um lado, celular do outro ---- */
+@media (min-width:1000px){
+  .capa{flex-direction:row;justify-content:space-between;gap:48px;padding:26px 48px 34px}
+  .pitch{text-align:left;max-width:560px}
+  .pitch h1{font-size:clamp(58px,5.8vw,82px)}
+  .pitch p{display:block;font-size:19px;margin:0 0 30px;max-width:460px;margin-left:0}
+  .pitch .tracinho{margin:26px 0}
+  .pitch .mini{justify-content:flex-start;gap:26px;font-size:14.5px}
+  .fone{height:min(680px,calc(100dvh - 80px))}
 }
 .status{display:flex;align-items:center;justify-content:space-between;padding:12px 26px 4px;font-size:13px;font-weight:600;flex:none;color:var(--escuro)}
 .status .icones{display:flex;align-items:center;gap:5px;opacity:.85}
@@ -150,6 +182,10 @@ body{
 .rolar svg{animation:desce 1.8s ease-in-out infinite}
 @keyframes desce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 @media (max-width:559px){.rolar{display:none}}
+/* entre 640 e 999 a capa é uma coluna, então a seta entra no fluxo em vez de flutuar */
+@media (min-width:640px) and (max-width:999px){
+  .rolar{position:static;transform:none;margin-top:-2px}
+}
 
 /* ==========================================================================
    SEÇÕES
@@ -184,6 +220,13 @@ h3{font-size:18.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 7px}
 .dm{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:13px}
 .dm .b{background:#EFEFE9;border-radius:16px;border-bottom-left-radius:5px;padding:9px 12px;font-size:13.5px;margin-bottom:7px}
 .dm .bt{border:1px solid var(--borda);border-radius:10px;padding:9px;text-align:center;font-size:13px;font-weight:600;margin-top:6px;color:var(--salvia);background:#FAFAF6}
+
+/* quem sou eu */
+.quem-sou{display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin-top:34px;background:var(--creme-claro);border:1px solid var(--borda);border-radius:20px;padding:26px}
+.quem-sou img{width:190px;height:230px;object-fit:cover;object-position:56% 20%;border-radius:16px;flex:none}
+.quem-sou>div{flex:1 1 320px}
+.quem-sou p{color:var(--cinza);font-size:15px;margin:0;max-width:560px}
+@media (max-width:560px){.quem-sou{padding:20px}.quem-sou img{width:100%;height:220px;object-position:56% 22%}}
 
 .tela{border-radius:18px;overflow:hidden;border:1px solid var(--borda);background:#fff;cursor:zoom-in}
 .tela img{display:block;width:100%}
@@ -277,6 +320,15 @@ footer a{color:var(--salvia)}
 
 .aparece{opacity:0;transform:translateY(22px);transition:.7s cubic-bezier(.2,.8,.2,1)}
 .aparece.ver{opacity:1;transform:none}
+
+/* foco visível pra quem navega pelo teclado */
+:focus-visible{outline:2.5px solid var(--salvia);outline-offset:3px;border-radius:8px}
+.opcoes button:focus-visible{outline-offset:2px}
+
+/* se as animações estiverem desligadas no sistema, nada pode ficar invisível */
+@media (prefers-reduced-motion:reduce){
+  .aparece,.passo{opacity:1!important;transform:none!important}
+}
 </style>
 </head>
 <body>
@@ -314,7 +366,7 @@ footer a{color:var(--salvia)}
       <div class="quem"><b>eilaradam</b><small><i class="pulso"></i>ativa agora</small></div>
     </header>
 
-    <div class="chat" id="chat"><div class="divisor">hoje</div></div>
+    <div class="chat" id="chat" role="log" aria-live="polite" aria-label="Conversa com a Lara"><div class="divisor">hoje</div></div>
 
     <footer class="rodape">
       <div class="opcoes" id="opcoes"></div>
@@ -326,6 +378,14 @@ footer a{color:var(--salvia)}
     role pra ver tudo
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
   </div>
+
+  <noscript>
+    <div style="position:fixed;inset:0;z-index:90;background:var(--creme);padding:40px 24px;overflow:auto;text-align:center">
+      <h2 style="margin-bottom:10px">Direct <em>no automático</em></h2>
+      <p class="sub" style="margin:0 auto 24px">A conversa da capa precisa de JavaScript pra rodar, mas o conteúdo do curso está tudo aqui embaixo. É só rolar a página.</p>
+      <a class="botao" style="max-width:340px;margin:0 auto" href="https://pay.kiwify.com.br/P4X2IfL" target="_blank" rel="noopener">Quero o Direct no Automático</a>
+    </div>
+  </noscript>
 </div>
 
 <!-- ======================= TELA 2: como funciona ======================= -->
@@ -379,11 +439,11 @@ footer a{color:var(--salvia)}
 
     <div class="grade dois aparece" style="margin-top:46px">
       <div>
-        <figure class="tela" style="margin:0" data-zoom="img/03-automacoes.png"><img src="img/03-automacoes.png" alt="Painel com as automações" loading="lazy"></figure>
+        <figure class="tela" style="margin:0" data-zoom="img/03-automacoes.jpg"><img src="img/03-automacoes.jpg" alt="Painel com as automações" loading="lazy"></figure>
         <p class="legenda">O painel: cada linha é uma automação sua, ligada, trabalhando sozinha.</p>
       </div>
       <div>
-        <figure class="tela" style="margin:0" data-zoom="img/04-editor.png"><img src="img/04-editor.png" alt="Editor de automação" loading="lazy"></figure>
+        <figure class="tela" style="margin:0" data-zoom="img/04-editor.jpg"><img src="img/04-editor.jpg" alt="Editor de automação" loading="lazy"></figure>
         <p class="legenda">O editor: você escolhe a palavra, escreve a mensagem e vê a prévia ao vivo.</p>
       </div>
     </div>
@@ -391,6 +451,16 @@ footer a{color:var(--salvia)}
     <div class="cartao aparece" style="margin-top:34px">
       <h3>E o custo mensal? Zero</h3>
       <p>Tudo roda em ferramenta com plano grátis: Supabase (o banco e o cérebro), GitHub Pages (o painel) e a API do Instagram, que não cobra nada. Uma ferramenta pronta custa de R$100 a R$300 por mês, todo mês, pra sempre.</p>
+    </div>
+
+    <div class="quem-sou aparece">
+      <img src="img/lara.jpeg" alt="Lara Dam" loading="lazy" decoding="async">
+      <div>
+        <span class="pill">quem tá te ensinando</span>
+        <h3 style="font-size:clamp(22px,3.4vw,28px);letter-spacing:-.03em;margin:14px 0 10px">Oi, eu sou a <em class="serif">Lara</em></h3>
+        <p>Eu sou criadora de conteúdo, não sou programadora. Eu vivia respondendo direct na mão até resolver construir o meu próprio sistema, conduzindo o Claude passo a passo. Apanhei bastante, principalmente na parte do Meta, e foi justamente por isso que eu montei este curso: pra você fazer o mesmo caminho sem cair em nenhum dos buracos que eu caí.</p>
+        <p style="margin-top:12px"><a href="https://instagram.com/eilaradam" target="_blank" rel="noopener" style="color:var(--salvia);font-weight:600">@eilaradam no Instagram</a></p>
+      </div>
     </div>
   </div>
 </section>
@@ -413,8 +483,8 @@ footer a{color:var(--salvia)}
       <li><b>Sistema no ar + publicando</b><span>O seu painel publicado na internet, funcionando de verdade e acessível de qualquer lugar.</span></li>
       <li><b>Conectando ao Supabase</b><span>A memória do sistema: onde ficam as suas automações, os seus leads e o histórico de envio.</span></li>
       <li><b>Como comprar o seu domínio</b><span>Colocar o painel no seu próprio endereço, com a sua cara. <i class="tag-breve">em breve</i></span></li>
-      <li><b>API do Meta</b><span>A parte que faz 90% das pessoas desistirem, destravada passo a passo, com as ciladas já resolvidas.</span></li>
-      <li><b>Política de Privacidade</b><span>O que a Meta exige pra aprovar o seu app, pronto pra você adaptar.</span></li>
+      <li><b>API do Meta</b><span>A parte que mais trava gente, destravada passo a passo, com as ciladas já resolvidas.</span></li>
+      <li><b>Política de Privacidade</b><span>O que a Meta exige pra aprovar o seu app.</span></li>
       <li><b>Extra</b><span>Os detalhes que fazem diferença depois que tudo já está rodando.</span></li>
     </ol>
 
@@ -427,7 +497,7 @@ footer a{color:var(--salvia)}
       <div class="prompt-num"><b>33.000</b>caracteres</div>
     </div>
 
-    <div style="margin-top:70px;text-align:center" class="aparece">
+    <div id="preco" style="margin-top:70px;text-align:center;scroll-margin-top:24px" class="aparece">
       <h2 style="font-size:clamp(26px,4.4vw,38px)">Quanto <em>custa</em></h2>
       <p class="sub" style="margin:0 auto 36px">Uma vez só. Sem mensalidade, agora e nunca.</p>
     </div>
@@ -442,7 +512,7 @@ footer a{color:var(--salvia)}
           <li><span>✓</span>11 aulas gravadas, do zero ao sistema no ar</li>
           <li><span>✓</span>O prompt exclusivo de 33 mil caracteres que constrói o sistema</li>
           <li><span>✓</span>A parte do Meta destravada, passo a passo</li>
-          <li><span>✓</span>O freio que evita bloqueio do Instagram</li>
+          <li><span>✓</span>O freio que protege a sua conta de bloqueio</li>
           <li><span>✓</span>Acesso vitalício, com as atualizações do curso</li>
         </ul>
         <p class="de">de <s>R$397</s> por apenas</p>
@@ -482,8 +552,8 @@ footer a{color:var(--salvia)}
       <details class="faq"><summary>Funciona em qualquer conta do Instagram?</summary><p>Precisa ser conta profissional (comercial ou de criador de conteúdo). Trocar leva 2 minutos e é de graça. Conta pessoal não pode usar a API, isso é regra do Instagram.</p></details>
       <details class="faq"><summary>Preciso de computador?</summary><p>Sim. A construção é feita no computador (Windows ou Mac, tanto faz). Depois de pronto, você mexe no painel pelo celular numa boa.</p></details>
       <details class="faq"><summary>Quanto tempo leva pra colocar no ar?</summary><p>Seguindo o passo a passo, dá pra ter tudo funcionando em um fim de semana. A minha primeira vez levou semanas porque eu apanhei na parte do Meta. As ciladas todas já estão resolvidas dentro do curso.</p></details>
-      <details class="faq"><summary>O Instagram pode bloquear a minha conta?</summary><p>Bloqueia quem manda mensagem feito robô doido. Por isso o sistema tem freio: limite de envio por hora, fila, espaçamento entre as mensagens e respeito à janela de 24 horas. Tem um módulo inteiro só sobre isso, é a parte que ninguém conta e é a que te protege.</p></details>
-      <details class="faq"><summary>E se eu travar no meio do caminho?</summary><p>As aulas são gravadas com a tela, então dá pra pausar e refazer quantas vezes precisar. Cada módulo tem a parte de "erro comum", onde eu mostro o que costuma dar errado ali e como resolver antes de você cair no buraco.</p></details>
+      <details class="faq"><summary>O Instagram pode bloquear a minha conta?</summary><p>Bloqueia quem manda mensagem feito robô doido. Por isso o sistema já nasce com freio: limite de envio, fila, espaçamento entre as mensagens e respeito à janela de 24 horas que o Instagram exige. Não é um detalhe: é o que mantém a sua conta em paz enquanto a automação trabalha.</p></details>
+      <details class="faq"><summary>E se eu travar no meio do caminho?</summary><p>As aulas são gravadas com a minha tela, então dá pra pausar, voltar e refazer quantas vezes precisar. E o caminho já vem com as ciladas resolvidas: tudo que me travou (principalmente na parte do Meta) está mastigado dentro do curso, pra você não perder os dias que eu perdi.</p></details>
       <details class="faq"><summary>Serve pra quem não é criadora de conteúdo?</summary><p>Serve pra qualquer pessoa que vende ou capta cliente pelo Instagram: loja, clínica, prestadora de serviço, infoprodutora. Se alguém comenta no seu post pedindo alguma coisa, esse curso é pra você.</p></details>
       <details class="faq"><summary>Como recebo o acesso?</summary><p>Assim que o pagamento é aprovado, chega um e-mail da Kiwify com o seu acesso. É na hora, sem espera.</p></details>
       <details class="faq"><summary>O acesso vence?</summary><p>Não. É vitalício, e as atualizações que eu fizer no curso entram pra você sem cobrar nada a mais.</p></details>
@@ -497,7 +567,10 @@ footer a{color:var(--salvia)}
   </div>
 </section>
 
-<footer>Direct no Automático · feito pela <a href="https://instagram.com/eilaradam" target="_blank" rel="noopener">@eilaradam</a></footer>
+<footer>
+  Direct no Automático · feito pela <a href="https://instagram.com/eilaradam" target="_blank" rel="noopener">@eilaradam</a><br>
+  <span style="font-size:12px;opacity:.8">Este site mede visitas e cliques de forma anônima, só pra eu saber o que funciona. Não guardo nome, e-mail nem telefone de quem visita.</span>
+</footer>
 
 <div class="barra" id="barra">
   <div class="interno">
@@ -556,14 +629,14 @@ const ROTEIRO = {
   solucao:{
     msgs:[
       "foi por isso que eu construí o meu próprio sistema",
-      {print:"img/03-automacoes.png", legenda:"as minhas automações rodando sozinhas (toca pra ver de perto)"},
+      {print:"img/03-automacoes.jpg", legenda:"as minhas automações rodando sozinhas (toca pra ver de perto)"},
       "agora alguém comenta e recebe a minha mensagem em 1 segundo, 24h por dia, sem eu fazer nada e sem pagar mensalidade nenhuma",
       "e eu não sei programar viu 🤭 quem escreve o código é o Claude, eu só conduzo",
       "no Direct no Automático eu te ensino a construir o seu, do zero"
     ],
     opcoes:[
       {txt:"quero entender como funciona", rola:"#como"},
-      {txt:"quanto custa?", rola:"#curso"},
+      {txt:"quanto custa?", rola:"#preco"},
       {txt:"tenho dúvidas antes", rola:"#duvidas"}
     ]
   }
@@ -632,7 +705,10 @@ async function falaEla(conteudo){
     const b=document.createElement('div'); b.className='bolha'; b.textContent=conteudo; l.appendChild(b);
   }else if(conteudo.print){
     const f=document.createElement('figure'); f.className='print';
-    f.innerHTML='<img src="'+conteudo.print+'" alt="">'+(conteudo.legenda?'<figcaption>'+conteudo.legenda+'</figcaption>':'');
+    f.setAttribute('role','button'); f.setAttribute('tabindex','0');
+    f.setAttribute('aria-label','Ampliar imagem: '+(conteudo.legenda||'print do sistema'));
+    f.addEventListener('keydown',ev=>{ if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();abreLupa(conteudo.print)} });
+    f.innerHTML='<img src="'+conteudo.print+'" alt="'+(conteudo.legenda||'Print do painel de automações')+'" decoding="async">'+(conteudo.legenda?'<figcaption>'+conteudo.legenda+'</figcaption>':'');
     f.onclick=()=>abreLupa(conteudo.print);
     l.appendChild(f);
   }
@@ -689,7 +765,13 @@ async function toca(id){
 
 function abreLupa(src){document.getElementById('lupaImg').src=src;document.getElementById('lupa').classList.add('ver')}
 document.getElementById('lupa').onclick=e=>e.currentTarget.classList.remove('ver');
-document.querySelectorAll('[data-zoom]').forEach(f=>f.onclick=()=>abreLupa(f.dataset.zoom));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.getElementById('lupa').classList.remove('ver') });
+document.querySelectorAll('[data-zoom]').forEach(f=>{
+  f.setAttribute('role','button'); f.setAttribute('tabindex','0');
+  f.setAttribute('aria-label','Ampliar imagem');
+  f.onclick=()=>abreLupa(f.dataset.zoom);
+  f.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();abreLupa(f.dataset.zoom)} });
+});
 
 const olho=new IntersectionObserver(es=>{
   es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('ver'); olho.unobserve(e.target) } })
