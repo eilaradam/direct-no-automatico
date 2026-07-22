@@ -221,6 +221,31 @@ h3{font-size:18.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 7px}
 .dm .b{background:#EFEFE9;border-radius:16px;border-bottom-left-radius:5px;padding:9px 12px;font-size:13.5px;margin-bottom:7px}
 .dm .bt{border:1px solid var(--borda);border-radius:10px;padding:9px;text-align:center;font-size:13px;font-weight:600;margin-top:6px;color:var(--salvia);background:#FAFAF6}
 
+/* comparação antes do preço */
+.compara{display:grid;gap:16px;margin-top:60px}
+@media (min-width:820px){.compara{grid-template-columns:1fr 1fr;align-items:stretch}}
+.compara .lado{background:var(--creme);border:1px solid var(--borda);border-radius:20px;padding:24px}
+.compara .lado.destaque{background:var(--escuro);border-color:var(--escuro);color:var(--creme)}
+.tag-lado{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--cinza);margin-bottom:16px}
+.compara .destaque .tag-lado{color:#AEBBA1}
+.compara ul{margin:0;padding:0}
+.compara li{list-style:none;font-size:14.5px;line-height:1.45;padding:9px 0 9px 26px;position:relative;border-top:1px solid var(--borda);color:var(--cinza)}
+.compara li:first-child{border-top:0}
+.compara .destaque li{border-color:rgba(255,255,255,.14);color:#D6DCD0}
+.compara li::before{content:'✕';position:absolute;left:2px;top:9px;font-size:13px;color:#B4776B;font-weight:700}
+.compara .destaque li::before{content:'✓';color:#AEBBA1}
+.compara b{color:var(--escuro);font-weight:700}
+.compara .destaque b{color:#fff}
+
+/* garantia */
+.garantia{display:flex;align-items:center;gap:26px;flex-wrap:wrap;max-width:680px;margin:26px auto 0;background:var(--creme);border:1px solid var(--borda);border-radius:20px;padding:26px}
+.garantia .selo{flex:none;width:126px;height:126px;border-radius:50%;border:2px dashed var(--salvia);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1.15;padding:10px}
+.garantia .selo b{display:block;font-family:var(--serif);font-style:italic;font-size:40px;color:var(--salvia);font-weight:400;line-height:1}
+.garantia .selo span{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--cinza);margin-top:4px}
+.garantia>div:last-child{flex:1 1 300px}
+.garantia p{color:var(--cinza);font-size:15px;margin:0}
+@media (max-width:520px){.garantia{justify-content:center;text-align:center}}
+
 /* quem sou eu */
 .quem-sou{display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin-top:34px;background:var(--creme-claro);border:1px solid var(--borda);border-radius:20px;padding:26px}
 .quem-sou img{width:190px;height:230px;object-fit:cover;object-position:56% 20%;border-radius:16px;flex:none}
@@ -462,6 +487,10 @@ footer a{color:var(--salvia)}
         <p style="margin-top:12px"><a href="https://instagram.com/eilaradam" target="_blank" rel="noopener" style="color:var(--salvia);font-weight:600">@eilaradam no Instagram</a></p>
       </div>
     </div>
+
+    <div class="aparece" style="text-align:center;margin-top:40px">
+      <a class="botao" style="max-width:400px;margin:0 auto" href="#preco">Quero construir o meu</a>
+    </div>
   </div>
 </section>
 
@@ -497,6 +526,29 @@ footer a{color:var(--salvia)}
       <div class="prompt-num"><b>33.000</b>caracteres</div>
     </div>
 
+    <div class="compara aparece">
+      <div class="lado">
+        <span class="tag-lado">alugando uma ferramenta pronta</span>
+        <ul>
+          <li>De R$100 a R$300 <b>por mês</b>, pra sempre</li>
+          <li>Mais de <b>R$1.200 por ano</b> saindo do seu bolso</li>
+          <li>Os seus leads ficam guardados na conta deles</li>
+          <li>Limite de contatos, e o preço sobe quando você cresce</li>
+          <li>Se cancelar ou a empresa mudar a regra, acabou</li>
+        </ul>
+      </div>
+      <div class="lado destaque">
+        <span class="tag-lado">construindo o seu</span>
+        <ul>
+          <li><b>R$197 uma vez só</b>, e nunca mais</li>
+          <li>R$0 de mensalidade, pra sempre</li>
+          <li>Os leads ficam no <b>seu</b> banco de dados</li>
+          <li>Sem limite de contato: cresça à vontade</li>
+          <li>O sistema é seu. Ninguém tira de você</li>
+        </ul>
+      </div>
+    </div>
+
     <div id="preco" style="margin-top:70px;text-align:center;scroll-margin-top:24px" class="aparece">
       <h2 style="font-size:clamp(26px,4.4vw,38px)">Quanto <em>custa</em></h2>
       <p class="sub" style="margin:0 auto 36px">Uma vez só. Sem mensalidade, agora e nunca.</p>
@@ -530,9 +582,15 @@ footer a{color:var(--salvia)}
       <div><b>passo 4</b><p>Começa pela aula 1 comigo, criando as contas junto.</p></div>
     </div>
 
-    <div class="cartao aparece" style="margin-top:26px;text-align:center;max-width:620px;margin-left:auto;margin-right:auto">
-      <h3>Você tem 7 dias pra ver tudo por dentro</h3>
-      <p>Se olhar as aulas e sentir que não é pra você, é só pedir o reembolso dentro de 7 dias. Você recebe o valor de volta e a gente segue amiga.</p>
+    <div class="garantia aparece">
+      <div class="selo">
+        <b>7</b>
+        <span>dias de<br>garantia</span>
+      </div>
+      <div>
+        <h3 style="font-size:clamp(21px,3.2vw,26px);letter-spacing:-.03em;margin:0 0 10px">Se não for pra você, <em class="serif">o dinheiro volta</em></h3>
+        <p>Entra, assiste as aulas, olha o prompt, testa o caminho todo. Se em 7 dias você sentir que não é pra você, é só me avisar que eu devolvo 100% do valor. Sem pergunta, sem burocracia, sem clima ruim. O risco é meu, não seu.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -568,8 +626,13 @@ footer a{color:var(--salvia)}
 </section>
 
 <footer>
-  Direct no Automático · feito pela <a href="https://instagram.com/eilaradam" target="_blank" rel="noopener">@eilaradam</a><br>
-  <span style="font-size:12px;opacity:.8">Este site mede visitas e cliques de forma anônima, só pra eu saber o que funciona. Não guardo nome, e-mail nem telefone de quem visita.</span>
+  <b style="display:block;color:var(--escuro);font-size:15px;margin-bottom:6px">Direct no Automático</b>
+  Dúvida antes de comprar? Me chama no direct: <a href="https://instagram.com/eilaradam" target="_blank" rel="noopener">@eilaradam</a><br>
+  <span style="font-size:12px;opacity:.85;display:block;margin-top:10px;max-width:620px;margin-left:auto;margin-right:auto">
+    Pagamento processado pela Kiwify, com garantia de 7 dias prevista no Código de Defesa do Consumidor.
+    Este site mede visitas e cliques de forma anônima, só pra eu saber o que funciona: não guardo nome, e-mail nem telefone de quem visita.
+    O curso ensina a construir um sistema próprio usando as ferramentas oficiais do Instagram, respeitando as regras da Meta. Resultado depende do seu conteúdo e da sua aplicação.
+  </span>
 </footer>
 
 <div class="barra" id="barra">
