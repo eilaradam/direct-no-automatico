@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Direct no Automático · por @eilaradam</title>
+<meta name="description" content="O curso que te ensina a construir a sua própria automação de mensagens no Instagram, do zero, sem pagar mensalidade de ferramenta.">
+<meta property="og:title" content="Direct no Automático">
+<meta property="og:description" content="Automação de mensagens no Instagram, feita por você. Sem mensalidade, sem ferramenta gringa.">
+<meta name="theme-color" content="#F3F3ED">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   DIRECT NO AUTOMÁTICO  ·  página de vendas
+   Identidade: creme + verde sálvia + verde escuro, igual à arte do curso.
+
+   TELA 1: a conversa de direct (curta, só pra fisgar)
+   TELA 2: como funciona
+   TELA 3: o que tem dentro + preço + como comprar
+   TELA 4: perguntas e respostas
+
+   PRA EDITAR:
+   1) o link da Kiwify: constante CHECKOUT, no começo do <script>
+   2) a conversa: objeto ROTEIRO, logo abaixo
+   3) o resto do texto: direto no HTML de cada seção
+   ========================================================================== */
+
+:root{
+  --creme:#F3F3ED;
+  --creme-claro:#FAFAF6;
+  --branco:#FFFFFF;
+  --escuro:#2C3328;      /* verde quase preto, dos títulos e botões */
+  --salvia:#8A9E7B;      /* o verde da arte */
+  --salvia-fundo:#E7EBE0;
+  --cinza:#6E7268;
+  --borda:#E0E0D6;
+  --serif:'Playfair Display',Georgia,serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--creme);color:var(--escuro);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:16px;line-height:1.5;overflow-x:hidden;
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* grão de papel, igual ao fundo da arte */
+.grao{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+}
+
+/* tipografia da marca */
+.serif{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--salvia)}
+.pill{display:inline-block;background:var(--escuro);color:var(--creme);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;padding:7px 15px;border-radius:999px}
+.tracinho{width:34px;height:1.5px;background:var(--salvia);border:0;margin:22px 0}
+
+/* ==========================================================================
+   TELA 1
+   ========================================================================== */
+.capa{position:relative;z-index:1;min-height:100dvh;display:flex;align-items:center;justify-content:center;gap:48px;padding:0;max-width:1280px;margin:0 auto}
+@media (min-width:560px){.capa{padding:26px 24px 34px}}
+@media (min-width:1000px){.capa{justify-content:space-between;padding:26px 48px 34px}}
+
+.pitch{max-width:560px;display:none;flex:1 1 auto}
+.pitch h1{font-size:clamp(58px,5.8vw,82px);line-height:.96;letter-spacing:-.045em;font-weight:800;margin:18px 0 0}
+.pitch h1 em{display:block;font-family:var(--serif);font-style:italic;font-weight:400;color:var(--salvia);letter-spacing:-.012em;font-size:.97em;margin-top:4px}
+.pitch p{color:var(--cinza);font-size:19px;line-height:1.55;margin:0 0 30px;max-width:460px}
+.pitch .mini{display:flex;gap:26px;font-size:14.5px;color:var(--cinza);flex-wrap:wrap}
+.pitch .mini b{color:var(--escuro);font-weight:700}
+.pitch .tracinho{margin:26px 0}
+@media (min-width:1000px){.pitch{display:block}}
+
+/* o celular */
+.fone{
+  position:relative;width:100%;height:100dvh;background:var(--branco);
+  display:flex;flex-direction:column;overflow:hidden;flex:none;
+}
+@media (min-width:560px){
+  .fone{
+    width:340px;height:min(680px,calc(100dvh - 80px));
+    border-radius:38px;border:1px solid var(--borda);
+    box-shadow:0 40px 80px -34px rgba(44,51,40,.34),0 0 0 9px #FFF,0 0 0 10px var(--borda);
+  }
+}
+.status{display:flex;align-items:center;justify-content:space-between;padding:12px 26px 4px;font-size:13px;font-weight:600;flex:none;color:var(--escuro)}
+.status .icones{display:flex;align-items:center;gap:5px;opacity:.85}
+@supports (padding:env(safe-area-inset-top)){@media (max-width:559px){.status{padding-top:max(12px,env(safe-area-inset-top))}}}
+
+.topo{display:flex;align-items:center;gap:11px;padding:8px 14px 10px;border-bottom:1px solid var(--borda);flex:none}
+.voltar{width:24px;flex:none;opacity:.8}
+.avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:56% 22%;display:block;border:2px solid #fff}
+.anel{padding:2px;border-radius:50%;background:linear-gradient(140deg,var(--salvia),var(--escuro));flex:none}
+.quem{flex:1;min-width:0;line-height:1.25}
+.quem b{font-size:14.5px;font-weight:600;display:block}
+.quem small{font-size:11.5px;color:var(--cinza);display:block;margin-top:1px}
+.pulso{width:6px;height:6px;border-radius:50%;background:var(--salvia);display:inline-block;margin-right:4px;animation:pisca 2.4s infinite}
+@keyframes pisca{0%,100%{opacity:1}50%{opacity:.3}}
+
+.chat{flex:1 1 auto;min-height:0;overflow-y:auto;padding:16px 14px 10px;display:flex;flex-direction:column;gap:2px;scroll-behavior:smooth;background:var(--branco)}
+.chat::-webkit-scrollbar{width:0}
+.divisor{text-align:center;color:var(--cinza);font-size:11.5px;margin:6px 0 14px}
+
+.linha{display:flex;align-items:flex-end;gap:8px;margin-top:2px;animation:sobe .28s cubic-bezier(.2,.85,.25,1) both}
+.linha.eu{justify-content:flex-end}
+.linha .mini-foto{width:26px;height:26px;border-radius:50%;object-fit:cover;object-position:56% 22%;flex:none;margin-bottom:1px}
+.linha .vazio{width:26px;flex:none}
+@keyframes sobe{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+
+.bolha{max-width:78%;padding:9px 13px;border-radius:20px;font-size:14.5px;line-height:1.42;position:relative;word-wrap:break-word}
+.linha.ela .bolha{background:#EFEFE9;color:var(--escuro);border-bottom-left-radius:6px}
+.linha.ela.meio .bolha{border-bottom-left-radius:20px}
+.linha.eu .bolha{background:var(--salvia);color:#fff;border-bottom-right-radius:6px;font-weight:500}
+.reacao{position:absolute;bottom:-11px;right:10px;background:#EFEFE9;border:2px solid #fff;border-radius:999px;font-size:11px;padding:1px 4px;animation:pop .3s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+
+.digitando{background:#EFEFE9;border-radius:20px;border-bottom-left-radius:6px;padding:13px 15px;display:flex;gap:4px}
+.digitando i{width:7px;height:7px;border-radius:50%;background:#B4B7AE;animation:bola 1.3s infinite}
+.digitando i:nth-child(2){animation-delay:.18s}
+.digitando i:nth-child(3){animation-delay:.36s}
+@keyframes bola{0%,60%,100%{transform:translateY(0);opacity:.45}30%{transform:translateY(-5px);opacity:1}}
+
+.print{max-width:78%;border-radius:18px;border-bottom-left-radius:6px;overflow:hidden;border:1px solid var(--borda);background:#fff;margin:0;cursor:zoom-in}
+.print img{display:block;width:100%;max-height:230px;object-fit:cover;object-position:top left}
+.print figcaption{font-size:11.5px;color:var(--cinza);padding:7px 11px 9px;background:#F7F7F2}
+
+.rodape{flex:none;border-top:1px solid var(--borda);padding:9px 12px 12px;background:#fff}
+@supports (padding:env(safe-area-inset-bottom)){@media (max-width:559px){.rodape{padding-bottom:max(12px,env(safe-area-inset-bottom))}}}
+.opcoes{display:flex;flex-direction:column;gap:7px}
+.opcoes:empty{display:none}
+.opcoes button{
+  width:100%;padding:12px 15px;border-radius:999px;border:1px solid var(--borda);
+  background:#F7F7F2;color:var(--escuro);font:600 14px/1.3 'Inter',sans-serif;cursor:pointer;
+  text-align:left;transition:.18s;animation:sobe .3s cubic-bezier(.2,.85,.25,1) both
+}
+.opcoes button:nth-child(2){animation-delay:.07s}
+.opcoes button:nth-child(3){animation-delay:.14s}
+.opcoes button:hover{background:var(--salvia-fundo);border-color:var(--salvia)}
+.opcoes button.destaque{background:var(--escuro);border-color:var(--escuro);color:var(--creme);font-weight:700}
+.opcoes button.destaque:hover{background:#3A4335}
+.campo{display:flex;align-items:center;gap:10px;border:1px solid var(--borda);border-radius:999px;padding:8px 8px 8px 16px;background:#F7F7F2;margin-top:9px;opacity:.65}
+.campo input{flex:1;background:none;border:0;outline:0;color:var(--escuro);font:400 14.5px 'Inter',sans-serif;min-width:0}
+.campo .enviar{border:0;border-radius:50%;width:34px;height:34px;flex:none;background:var(--salvia);color:#fff;font-size:16px;display:grid;place-items:center;opacity:.6}
+
+.rolar{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--cinza);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;opacity:0;transition:opacity .5s;pointer-events:none}
+.rolar.ver{opacity:1}
+.rolar svg{animation:desce 1.8s ease-in-out infinite}
+@keyframes desce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+@media (max-width:559px){.rolar{display:none}}
+
+/* ==========================================================================
+   SEÇÕES
+   ========================================================================== */
+section{position:relative;z-index:1;padding:82px 20px}
+.dentro{max-width:960px;margin:0 auto}
+h2{font-size:clamp(30px,5vw,46px);line-height:1.04;letter-spacing:-.04em;font-weight:800;margin:14px 0 14px}
+h2 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--salvia);letter-spacing:-.01em;padding:0 .06em}
+.sub{color:var(--cinza);font-size:17px;max-width:620px;margin:0 0 44px}
+h3{font-size:18.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 7px}
+
+.cartao{background:var(--creme-claro);border:1px solid var(--borda);border-radius:20px;padding:24px}
+.cartao p{color:var(--cinza);font-size:14.5px;margin:0}
+.grade{display:grid;gap:14px}
+@media (min-width:720px){.grade.dois{grid-template-columns:1fr 1fr}.grade.quatro{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:960px){.grade.quatro{grid-template-columns:repeat(4,1fr)}}
+.num{width:34px;height:34px;border-radius:50%;background:var(--salvia-fundo);color:var(--escuro);display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:17px;margin-bottom:14px}
+
+/* o fluxo */
+.fluxo{display:grid;gap:14px;margin:0 0 46px}
+@media (min-width:820px){.fluxo{grid-template-columns:repeat(3,1fr)}}
+.passo{background:var(--creme-claro);border:1px solid var(--borda);border-radius:20px;padding:22px;opacity:0;transform:translateY(18px);transition:.6s cubic-bezier(.2,.8,.2,1)}
+.passo.ver{opacity:1;transform:none}
+.passo:nth-child(2){transition-delay:.18s}
+.passo:nth-child(3){transition-delay:.36s}
+.passo .tag{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--salvia);font-weight:700;margin-bottom:14px}
+.post{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:13px}
+.post .u{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;margin-bottom:7px}
+.post .u i{width:22px;height:22px;border-radius:50%;background:var(--salvia-fundo);flex:none}
+.post .c{font-size:14px;color:var(--escuro)}
+.post .resp{font-size:12.5px;color:var(--cinza);margin-top:9px;padding-top:9px;border-top:1px solid var(--borda)}
+.dm{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:13px}
+.dm .b{background:#EFEFE9;border-radius:16px;border-bottom-left-radius:5px;padding:9px 12px;font-size:13.5px;margin-bottom:7px}
+.dm .bt{border:1px solid var(--borda);border-radius:10px;padding:9px;text-align:center;font-size:13px;font-weight:600;margin-top:6px;color:var(--salvia);background:#FAFAF6}
+
+.tela{border-radius:18px;overflow:hidden;border:1px solid var(--borda);background:#fff;cursor:zoom-in}
+.tela img{display:block;width:100%}
+.legenda{font-size:13px;color:var(--cinza);margin:10px 0 0}
+
+/* as 11 aulas */
+.aulas{counter-reset:aula;list-style:none;margin:0;padding:0;border-top:1px solid var(--borda)}
+.aulas li{
+  counter-increment:aula;border-bottom:1px solid var(--borda);padding:17px 10px 17px 56px;position:relative;
+  transition:background .2s
+}
+.aulas li:hover{background:#fff}
+.aulas li::before{
+  content:counter(aula,decimal-leading-zero);position:absolute;left:8px;top:17px;
+  font-family:var(--serif);font-style:italic;font-size:19px;color:var(--salvia)
+}
+.aulas b{display:block;font-size:17px;font-weight:700;letter-spacing:-.02em}
+.aulas span{display:block;color:var(--cinza);font-size:14.5px;margin-top:3px}
+.tag-breve{
+  display:inline-block;font-style:normal;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:700;color:var(--salvia);border:1px solid var(--salvia);border-radius:999px;padding:2px 8px;margin-left:4px;vertical-align:1px
+}
+
+/* o card do prompt */
+.prompt-card{
+  margin-top:38px;background:var(--escuro);color:var(--creme);border-radius:24px;padding:32px;
+  display:flex;align-items:center;gap:34px;flex-wrap:wrap
+}
+.prompt-card .pill{background:var(--salvia);color:var(--escuro)}
+.prompt-card>div:first-child{flex:1 1 320px}
+.prompt-card p{color:#CBD3C4;font-size:15.5px;margin:0;max-width:560px}
+.prompt-card .serif{color:#B9C9A9}
+@media (max-width:640px){.prompt-card{padding:26px 22px;gap:22px}.prompt-card .prompt-num{width:100%}}
+.prompt-card .prompt-num{
+  flex:none;text-align:center;border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:22px 28px;
+  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#A9B49F
+}
+.prompt-card .prompt-num b{display:block;font-size:38px;letter-spacing:-.04em;color:#fff;font-weight:800;margin-bottom:4px}
+
+/* preço */
+.preco-caixa{max-width:520px;margin:0 auto;background:#fff;border:1px solid var(--borda);border-radius:26px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(44,51,40,.4)}
+.preco-caixa .capa-p{background:var(--escuro);color:var(--creme);padding:26px 22px;text-align:center}
+.preco-caixa .capa-p b{display:block;font-size:24px;font-weight:800;letter-spacing:-.03em}
+.preco-caixa .capa-p em{font-family:var(--serif);font-style:italic;font-weight:400;color:#B9C9A9;font-size:24px;letter-spacing:-.01em}
+.preco-caixa .capa-p span{display:block;font-size:12.5px;opacity:.75;margin-top:6px;letter-spacing:.05em}
+.preco-caixa .miolo{padding:28px 26px 30px;text-align:center}
+.inclui{text-align:left;margin:0 0 24px;padding:0}
+.inclui li{list-style:none;display:flex;gap:11px;font-size:14.5px;color:var(--escuro);padding:7px 0;border-bottom:1px solid var(--borda)}
+.inclui li:last-child{border-bottom:0}
+.inclui li span{flex:none;color:var(--salvia);font-weight:700}
+.de{color:var(--cinza);font-size:15px;margin:0}
+.valor{font-size:60px;font-weight:800;letter-spacing:-.05em;line-height:1;margin:6px 0 2px}
+.valor small{font-size:22px;vertical-align:.55em;margin-right:2px;color:var(--cinza)}
+.parcela{color:var(--cinza);font-size:14px;margin:0 0 22px}
+.botao{display:block;width:100%;padding:17px;border:0;border-radius:14px;background:var(--escuro);color:var(--creme);font:700 16.5px/1 'Inter',sans-serif;text-decoration:none;text-align:center;cursor:pointer;transition:.18s;box-shadow:0 12px 26px -14px rgba(44,51,40,.9)}
+.botao:hover{background:#3A4335;transform:translateY(-2px)}
+.selos{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--cinza)}
+
+.passos-compra{display:grid;gap:14px;margin-top:46px}
+@media (min-width:760px){.passos-compra{grid-template-columns:repeat(4,1fr)}}
+.passos-compra div{background:var(--creme-claro);border:1px solid var(--borda);border-radius:16px;padding:18px}
+.passos-compra b{display:block;font-family:var(--serif);font-style:italic;font-size:19px;color:var(--salvia);margin-bottom:7px;font-weight:400}
+.passos-compra p{margin:0;font-size:14.5px;color:var(--cinza)}
+
+/* faq */
+.faq{border-bottom:1px solid var(--borda)}
+.faq summary{list-style:none;cursor:pointer;padding:20px 40px 20px 0;font-size:17px;font-weight:600;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';position:absolute;right:6px;top:16px;font-size:24px;color:var(--salvia);font-weight:300;transition:.25s}
+.faq[open] summary::after{transform:rotate(45deg)}
+.faq p{color:var(--cinza);font-size:15px;margin:0 0 22px;max-width:720px}
+
+.fecho{text-align:center;padding-bottom:130px}
+.fecho .botao{max-width:400px;margin:0 auto}
+footer{position:relative;z-index:1;text-align:center;padding:0 20px 36px;color:var(--cinza);font-size:13px}
+footer a{color:var(--salvia)}
+
+/* barra fixa */
+.barra{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:11px 14px;background:rgba(250,250,246,.94);backdrop-filter:blur(14px);border-top:1px solid var(--borda);transform:translateY(120%);transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.barra.ver{transform:none}
+.barra .interno{max-width:620px;margin:0 auto;display:flex;align-items:center;gap:16px}
+.barra .txt{flex:1;min-width:0;font-size:13px;color:var(--cinza);line-height:1.3}
+.barra .txt b{display:block;color:var(--escuro);font-size:15px;font-weight:700}
+.barra .botao{width:auto;padding:14px 24px;font-size:15px;flex:none}
+@supports (padding:env(safe-area-inset-bottom)){.barra{padding-bottom:max(11px,env(safe-area-inset-bottom))}}
+@media (max-width:520px){.barra .txt{display:none}.barra .botao{width:100%}}
+
+.lupa{position:fixed;inset:0;z-index:60;background:rgba(44,51,40,.9);display:none;place-items:center;padding:20px;cursor:zoom-out}
+.lupa.ver{display:grid}
+.lupa img{max-width:100%;max-height:92dvh;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+
+.aparece{opacity:0;transform:translateY(22px);transition:.7s cubic-bezier(.2,.8,.2,1)}
+.aparece.ver{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<div class="grao"></div>
+
+<!-- ======================= TELA 1: a conversa ======================= -->
+<div class="capa" id="capa">
+
+  <div class="pitch">
+    <span class="pill">curso gravado</span>
+    <h1>Direct<em>no automático</em></h1>
+    <hr class="tracinho">
+    <p>Automação de mensagens no Instagram, construída por você, do zero, sem pagar mensalidade de ferramenta nenhuma. E sem saber programar.</p>
+    <div class="mini">
+      <span><b>11</b> aulas gravadas</span>
+      <span><b>33 mil</b> caracteres de prompt</span>
+      <span><b>R$0</b> de mensalidade</span>
+    </div>
+  </div>
+
+  <main class="fone">
+    <div class="status">
+      <span id="hora">21:34</span>
+      <span class="icones">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 11.2 6.2 9.3a2.6 2.6 0 0 1 3.6 0L8 11.2Zm4-4.1a7.3 7.3 0 0 0-8 0L2.6 5.6a9.2 9.2 0 0 1 10.8 0L12 7.1ZM15.4 3.6a11.9 11.9 0 0 0-14.8 0L-.8 2.1a13.8 13.8 0 0 1 17.6 0l-1.4 1.5Z"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".5" y=".5" width="21" height="11" rx="3.2" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="16" height="8" rx="2" fill="currentColor"/><path d="M23 4v4a2.2 2.2 0 0 0 0-4Z" fill="currentColor" opacity=".45"/></svg>
+      </span>
+    </div>
+
+    <header class="topo">
+      <svg class="voltar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      <div class="anel"><img class="avatar" src="img/lara.jpeg" alt="Lara"></div>
+      <div class="quem"><b>eilaradam</b><small><i class="pulso"></i>ativa agora</small></div>
+    </header>
+
+    <div class="chat" id="chat"><div class="divisor">hoje</div></div>
+
+    <footer class="rodape">
+      <div class="opcoes" id="opcoes"></div>
+      <div class="campo"><input placeholder="Mensagem..." disabled aria-label="campo de mensagem"><span class="enviar">↑</span></div>
+    </footer>
+  </main>
+
+  <div class="rolar" id="rolar">
+    role pra ver tudo
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+  </div>
+</div>
+
+<!-- ======================= TELA 2: como funciona ======================= -->
+<section id="como">
+  <div class="dentro">
+    <div class="aparece">
+      <span class="pill">o que você vai construir</span>
+      <h2>Uma automação <em>que é sua</em>, não alugada</h2>
+      <p class="sub">Alguém comenta uma palavra no seu post. O seu sistema responde o comentário e manda a mensagem no direct dessa pessoa na hora, com botões, entregando o que ela pediu. E o contato fica salvo com você.</p>
+    </div>
+
+    <div class="fluxo" id="fluxo">
+      <div class="passo">
+        <div class="tag">1. ela comenta</div>
+        <div class="post">
+          <div class="u"><i></i>marina.costa</div>
+          <div class="c">QUERO 🙌</div>
+          <div class="resp">↳ você: te chamei no direct 💌 <em>(automático)</em></div>
+        </div>
+      </div>
+      <div class="passo">
+        <div class="tag">2. em 1 segundo</div>
+        <div class="dm">
+          <div class="b">Oi Marina! Vi que você quer o material ✨</div>
+          <div class="b">Prefere qual formato?</div>
+          <div class="bt">PDF pra ler</div>
+          <div class="bt">Áudio pra ouvir</div>
+        </div>
+      </div>
+      <div class="passo">
+        <div class="tag">3. e fica com você</div>
+        <div class="post">
+          <div class="u"><i></i>novo lead salvo</div>
+          <div class="c">@marina.costa</div>
+          <div class="resp">veio do post do dia 12 · pediu o PDF · respondeu em 4s</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="aparece">
+      <h2 style="font-size:clamp(25px,4vw,34px);margin-top:64px">Por dentro são só <em>4 peças</em></h2>
+      <p class="sub">E no curso cada uma delas vem traduzida pra português de gente normal.</p>
+    </div>
+
+    <div class="grade quatro aparece">
+      <div class="cartao"><div class="num">1</div><h3>A chave</h3><p>A API do Meta é a permissão que deixa o seu sistema ler comentários e mandar mensagem. É a parte que trava todo mundo, e ela está mastigada aula por aula.</p></div>
+      <div class="cartao"><div class="num">2</div><h3>O cérebro</h3><p>Um programinha na nuvem que fica escutando o Instagram. Sempre que alguém comenta, ele é avisado na hora e decide o que fazer.</p></div>
+      <div class="cartao"><div class="num">3</div><h3>A memória</h3><p>O banco de dados guarda as suas automações, os seus leads e o histórico de envio. Tudo na sua conta, não na conta de uma empresa.</p></div>
+      <div class="cartao"><div class="num">4</div><h3>O controle</h3><p>O painel onde você cria as automações clicando. Escolhe a palavra, escreve a mensagem, monta os botões. Sem tocar em código.</p></div>
+    </div>
+
+    <div class="grade dois aparece" style="margin-top:46px">
+      <div>
+        <figure class="tela" style="margin:0" data-zoom="img/03-automacoes.png"><img src="img/03-automacoes.png" alt="Painel com as automações" loading="lazy"></figure>
+        <p class="legenda">O painel: cada linha é uma automação sua, ligada, trabalhando sozinha.</p>
+      </div>
+      <div>
+        <figure class="tela" style="margin:0" data-zoom="img/04-editor.png"><img src="img/04-editor.png" alt="Editor de automação" loading="lazy"></figure>
+        <p class="legenda">O editor: você escolhe a palavra, escreve a mensagem e vê a prévia ao vivo.</p>
+      </div>
+    </div>
+
+    <div class="cartao aparece" style="margin-top:34px">
+      <h3>E o custo mensal? Zero</h3>
+      <p>Tudo roda em ferramenta com plano grátis: Supabase (o banco e o cérebro), GitHub Pages (o painel) e a API do Instagram, que não cobra nada. Uma ferramenta pronta custa de R$100 a R$300 por mês, todo mês, pra sempre.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TELA 3: o curso e o valor ======================= -->
+<section id="curso" style="background:var(--creme-claro);border-top:1px solid var(--borda);border-bottom:1px solid var(--borda)">
+  <div class="dentro">
+    <div class="aparece">
+      <span class="pill">o que tem dentro</span>
+      <h2>11 aulas gravadas, <em>na ordem certa</em></h2>
+      <p class="sub">Do zero absoluto até o sistema no ar respondendo de verdade. Gravadas com a minha tela, mostrando cada clique, no ritmo de quem nunca fez isso na vida.</p>
+    </div>
+
+    <ol class="aulas aparece">
+      <li><b>Boas vindas</b><span>O que você vai construir e como aproveitar o curso sem se perder.</span></li>
+      <li><b>Apresentação</b><span>Quem eu sou e por que eu resolvi construir o meu próprio sistema em vez de alugar um.</span></li>
+      <li><b>Como funciona o meu sistema</b><span>O passeio por dentro: o que acontece do comentário até a mensagem chegar no direct.</span></li>
+      <li><b>Instalações iniciais</b><span>As contas e as ferramentas do kit, todas com plano grátis, prontas pra trabalhar.</span></li>
+      <li><b>A sua automação</b><span>A primeira automação de pé: a palavra comentada virando mensagem automática.</span></li>
+      <li><b>Sistema no ar + publicando</b><span>O seu painel publicado na internet, funcionando de verdade e acessível de qualquer lugar.</span></li>
+      <li><b>Conectando ao Supabase</b><span>A memória do sistema: onde ficam as suas automações, os seus leads e o histórico de envio.</span></li>
+      <li><b>Como comprar o seu domínio</b><span>Colocar o painel no seu próprio endereço, com a sua cara. <i class="tag-breve">em breve</i></span></li>
+      <li><b>API do Meta</b><span>A parte que faz 90% das pessoas desistirem, destravada passo a passo, com as ciladas já resolvidas.</span></li>
+      <li><b>Política de Privacidade</b><span>O que a Meta exige pra aprovar o seu app, pronto pra você adaptar.</span></li>
+      <li><b>Extra</b><span>Os detalhes que fazem diferença depois que tudo já está rodando.</span></li>
+    </ol>
+
+    <div class="prompt-card aparece">
+      <div>
+        <span class="pill">e o principal</span>
+        <h3 style="font-size:clamp(23px,3.6vw,30px);letter-spacing:-.03em;margin:14px 0 10px">O prompt exclusivo de <em class="serif">33 mil caracteres</em></h3>
+        <p>É o coração do curso. O mesmo prompt que eu uso pra fazer o Claude construir o sistema inteiro, do banco de dados ao painel. Você cola, ele escreve o código, e as aulas te acompanham em cada passo. Sem ele, você levaria semanas montando isso na tentativa e erro. Foi o que aconteceu comigo.</p>
+      </div>
+      <div class="prompt-num"><b>33.000</b>caracteres</div>
+    </div>
+
+    <div style="margin-top:70px;text-align:center" class="aparece">
+      <h2 style="font-size:clamp(26px,4.4vw,38px)">Quanto <em>custa</em></h2>
+      <p class="sub" style="margin:0 auto 36px">Uma vez só. Sem mensalidade, agora e nunca.</p>
+    </div>
+
+    <div class="preco-caixa aparece">
+      <div class="capa-p">
+        <b>Direct <em>no automático</em></b>
+        <span>curso gravado · acesso vitalício</span>
+      </div>
+      <div class="miolo">
+        <ul class="inclui">
+          <li><span>✓</span>11 aulas gravadas, do zero ao sistema no ar</li>
+          <li><span>✓</span>O prompt exclusivo de 33 mil caracteres que constrói o sistema</li>
+          <li><span>✓</span>A parte do Meta destravada, passo a passo</li>
+          <li><span>✓</span>O freio que evita bloqueio do Instagram</li>
+          <li><span>✓</span>Acesso vitalício, com as atualizações do curso</li>
+        </ul>
+        <p class="de">de <s>R$397</s> por apenas</p>
+        <p class="valor"><small>R$</small>197</p>
+        <p class="parcela">à vista no pix ou parcelado no cartão</p>
+        <a class="botao" href="#" target="_blank" rel="noopener" data-cta>Quero o Direct no Automático</a>
+        <div class="selos"><span>compra segura</span><span>7 dias de garantia</span><span>acesso na hora</span></div>
+      </div>
+    </div>
+
+    <div class="passos-compra aparece">
+      <div><b>passo 1</b><p>Você clica no botão e cai no checkout seguro da Kiwify.</p></div>
+      <div><b>passo 2</b><p>Paga no pix ou no cartão, do jeito que ficar melhor pra você.</p></div>
+      <div><b>passo 3</b><p>Recebe o e-mail com o acesso na hora, assim que o pagamento aprova.</p></div>
+      <div><b>passo 4</b><p>Começa pela aula 1 comigo, criando as contas junto.</p></div>
+    </div>
+
+    <div class="cartao aparece" style="margin-top:26px;text-align:center;max-width:620px;margin-left:auto;margin-right:auto">
+      <h3>Você tem 7 dias pra ver tudo por dentro</h3>
+      <p>Se olhar as aulas e sentir que não é pra você, é só pedir o reembolso dentro de 7 dias. Você recebe o valor de volta e a gente segue amiga.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TELA 4: perguntas ======================= -->
+<section id="duvidas">
+  <div class="dentro" style="max-width:760px">
+    <div class="aparece">
+      <span class="pill">perguntas e respostas</span>
+      <h2>As dúvidas que <em>sempre chegam</em></h2>
+      <p class="sub">Se ficar qualquer outra, me chama no direct de verdade: @eilaradam.</p>
+    </div>
+
+    <div class="aparece">
+      <details class="faq"><summary>Preciso saber programar?</summary><p>Não. Eu também não sei. Quem escreve o código é o Claude, seguindo o que você pede. O curso te ensina a conduzir ele passo a passo: você diz o que quer, ele escreve, você cola no lugar certo. Todo termo técnico vem traduzido com analogia de gente normal.</p></details>
+      <details class="faq"><summary>Preciso pagar mais alguma coisa além do curso?</summary><p>Não. Todas as ferramentas usadas têm plano grátis e o que a gente monta cabe nele com folga. Só se um dia o seu volume crescer muito é que você poderia querer subir de plano, e aí já seria um bom problema.</p></details>
+      <details class="faq"><summary>Funciona em qualquer conta do Instagram?</summary><p>Precisa ser conta profissional (comercial ou de criador de conteúdo). Trocar leva 2 minutos e é de graça. Conta pessoal não pode usar a API, isso é regra do Instagram.</p></details>
+      <details class="faq"><summary>Preciso de computador?</summary><p>Sim. A construção é feita no computador (Windows ou Mac, tanto faz). Depois de pronto, você mexe no painel pelo celular numa boa.</p></details>
+      <details class="faq"><summary>Quanto tempo leva pra colocar no ar?</summary><p>Seguindo o passo a passo, dá pra ter tudo funcionando em um fim de semana. A minha primeira vez levou semanas porque eu apanhei na parte do Meta. As ciladas todas já estão resolvidas dentro do curso.</p></details>
+      <details class="faq"><summary>O Instagram pode bloquear a minha conta?</summary><p>Bloqueia quem manda mensagem feito robô doido. Por isso o sistema tem freio: limite de envio por hora, fila, espaçamento entre as mensagens e respeito à janela de 24 horas. Tem um módulo inteiro só sobre isso, é a parte que ninguém conta e é a que te protege.</p></details>
+      <details class="faq"><summary>E se eu travar no meio do caminho?</summary><p>As aulas são gravadas com a tela, então dá pra pausar e refazer quantas vezes precisar. Cada módulo tem a parte de "erro comum", onde eu mostro o que costuma dar errado ali e como resolver antes de você cair no buraco.</p></details>
+      <details class="faq"><summary>Serve pra quem não é criadora de conteúdo?</summary><p>Serve pra qualquer pessoa que vende ou capta cliente pelo Instagram: loja, clínica, prestadora de serviço, infoprodutora. Se alguém comenta no seu post pedindo alguma coisa, esse curso é pra você.</p></details>
+      <details class="faq"><summary>Como recebo o acesso?</summary><p>Assim que o pagamento é aprovado, chega um e-mail da Kiwify com o seu acesso. É na hora, sem espera.</p></details>
+      <details class="faq"><summary>O acesso vence?</summary><p>Não. É vitalício, e as atualizações que eu fizer no curso entram pra você sem cobrar nada a mais.</p></details>
+    </div>
+
+    <div class="fecho aparece" style="margin-top:62px">
+      <h2 style="font-size:clamp(26px,4.4vw,36px)">Bora tirar o seu direct <em>do modo manual?</em></h2>
+      <p class="sub" style="margin:0 auto 28px">R$197, uma vez só, com 7 dias de garantia.</p>
+      <a class="botao" href="#" target="_blank" rel="noopener" data-cta>Quero o Direct no Automático</a>
+    </div>
+  </div>
+</section>
+
+<footer>Direct no Automático · feito pela <a href="https://instagram.com/eilaradam" target="_blank" rel="noopener">@eilaradam</a></footer>
+
+<div class="barra" id="barra">
+  <div class="interno">
+    <div class="txt"><b>Direct no Automático</b>de R$397 por R$197, acesso vitalício</div>
+    <a class="botao" href="#" target="_blank" rel="noopener" data-cta>Quero agora</a>
+  </div>
+</div>
+
+<div class="lupa" id="lupa"><img id="lupaImg" src="" alt=""></div>
+
+<script>
+/* ============================================================
+   1. LINK DO CHECKOUT (colar o link da Kiwify aqui)
+   ============================================================ */
+const CHECKOUT = "#";   // ex: "https://pay.kiwify.com.br/xxxxxxx"
+
+/* ============================================================
+   2. A CONVERSA (curta de propósito: fisga e manda pras seções)
+      msgs   : o que a Lara manda   ("texto" ou {print:"img/x.png",legenda:"..."})
+      opcoes : os botões de resposta
+               {txt:"...", vai:"outroBloco"}   segue a conversa
+               {txt:"...", rola:"#curso"}      rola a página pra seção
+      vai    : segue direto, sem botão
+   ============================================================ */
+const ROTEIRO = {
+
+  inicio:{
+    msgs:[
+      "oiii, tudo bem? 🥰",
+      "vou ser rápida que eu sei que você tem coisa pra fazer",
+      "quando alguém comenta pedindo o link num post seu, quem responde essa pessoa?"
+    ],
+    opcoes:[
+      {txt:"eu mesma, na mão 😩", vai:"resposta"},
+      {txt:"ninguém, eu esqueço", vai:"resposta"},
+      {txt:"pago uma ferramenta pra isso", vai:"respostaPaga"}
+    ]
+  },
+
+  resposta:{
+    msgs:[
+      "eu fiz isso por meses 😭",
+      "e o pior nem é o trabalho: é que quando você responde, a pessoa já esfriou"
+    ],
+    vai:"solucao"
+  },
+
+  respostaPaga:{
+    msgs:[
+      "então são uns R$1.200 a R$3.000 por ano saindo do seu bolso 😅",
+      "e os seus leads ficam guardados lá dentro, na mão dos outros"
+    ],
+    vai:"solucao"
+  },
+
+  solucao:{
+    msgs:[
+      "foi por isso que eu construí o meu próprio sistema",
+      {print:"img/03-automacoes.png", legenda:"as minhas automações rodando sozinhas (toca pra ver de perto)"},
+      "agora alguém comenta e recebe a minha mensagem em 1 segundo, 24h por dia, sem eu fazer nada e sem pagar mensalidade nenhuma",
+      "e eu não sei programar viu 🤭 quem escreve o código é o Claude, eu só conduzo",
+      "no Direct no Automático eu te ensino a construir o seu, do zero"
+    ],
+    opcoes:[
+      {txt:"quero entender como funciona", rola:"#como"},
+      {txt:"quanto custa?", rola:"#curso"},
+      {txt:"tenho dúvidas antes", rola:"#duvidas"}
+    ]
+  }
+};
+
+/* ============================================================
+   3. O MOTOR (não precisa mexer daqui pra baixo)
+   ============================================================ */
+const chat=document.getElementById('chat'),
+      caixaOpcoes=document.getElementById('opcoes'),
+      barra=document.getElementById('barra'),
+      rolar=document.getElementById('rolar');
+let ultimaEla=null;
+
+document.querySelectorAll('[data-cta]').forEach(a=>{
+  a.href=CHECKOUT;
+  if(CHECKOUT==='#'){
+    a.removeAttribute('target');
+    a.onclick=e=>{e.preventDefault();alert('Falta colar o link da Kiwify na constante CHECKOUT, no começo do script.')};
+  }
+});
+
+(function(){
+  const h=document.getElementById('hora');
+  const at=()=>h.textContent=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  at(); setInterval(at,20000);
+})();
+
+let ctxAudio=null;
+function som(agudo){
+  try{
+    ctxAudio=ctxAudio||new (window.AudioContext||window.webkitAudioContext)();
+    const o=ctxAudio.createOscillator(),g=ctxAudio.createGain(),t=ctxAudio.currentTime;
+    o.type='sine';o.frequency.setValueAtTime(agudo?880:520,t);
+    o.frequency.exponentialRampToValueAtTime(agudo?1180:700,t+.07);
+    g.gain.setValueAtTime(.0001,t);
+    g.gain.exponentialRampToValueAtTime(.05,t+.012);
+    g.gain.exponentialRampToValueAtTime(.0001,t+.19);
+    o.connect(g);g.connect(ctxAudio.destination);o.start(t);o.stop(t+.2);
+  }catch(e){}
+}
+
+const espera=ms=>new Promise(r=>setTimeout(r,ms));
+const desce=()=>{chat.scrollTop=chat.scrollHeight};
+
+async function falaEla(conteudo){
+  const l=document.createElement('div'); l.className='linha ela';
+  const vazio=document.createElement('div'); vazio.className='vazio'; l.appendChild(vazio);
+  const d=document.createElement('div'); d.className='digitando'; d.innerHTML='<i></i><i></i><i></i>';
+  l.appendChild(d); chat.appendChild(l); desce();
+
+  const tam=typeof conteudo==='string'?conteudo.length:110;
+  await espera(Math.min(1750,600+tam*10));
+  d.remove();
+
+  if(ultimaEla){
+    ultimaEla.classList.add('meio');
+    const f=ultimaEla.querySelector('.mini-foto');
+    if(f){const v=document.createElement('div');v.className='vazio';ultimaEla.replaceChild(v,f)}
+  }
+  const foto=document.createElement('img');
+  foto.className='mini-foto'; foto.src='img/lara.jpeg'; foto.alt='';
+  l.replaceChild(foto,vazio);
+
+  if(typeof conteudo==='string'){
+    const b=document.createElement('div'); b.className='bolha'; b.textContent=conteudo; l.appendChild(b);
+  }else if(conteudo.print){
+    const f=document.createElement('figure'); f.className='print';
+    f.innerHTML='<img src="'+conteudo.print+'" alt="">'+(conteudo.legenda?'<figcaption>'+conteudo.legenda+'</figcaption>':'');
+    f.onclick=()=>abreLupa(conteudo.print);
+    l.appendChild(f);
+  }
+  ultimaEla=l; som(false);
+  if(navigator.vibrate) navigator.vibrate(12);
+  desce();
+}
+
+async function falaVoce(texto){
+  ultimaEla=null;
+  const l=document.createElement('div'); l.className='linha eu';
+  const b=document.createElement('div'); b.className='bolha'; b.textContent=texto;
+  l.appendChild(b); chat.appendChild(l); som(true); desce();
+  if(Math.random()<.35){
+    await espera(650);
+    const r=document.createElement('span'); r.className='reacao'; r.textContent='❤️';
+    b.appendChild(r); desce();
+  }
+  await espera(300);
+}
+
+let passoAtual='inicio';
+
+function mostraOpcoes(lista){
+  caixaOpcoes.innerHTML='';
+  lista.forEach((op,i)=>{
+    const b=document.createElement('button');
+    b.type='button'; b.textContent=op.txt;
+    if(i===0&&op.rola) b.classList.add('destaque');
+    b.onclick=async()=>{
+      caixaOpcoes.innerHTML='';
+      window.dispatchEvent(new CustomEvent('direct:chat',{detail:{passo:passoAtual,escolha:op.txt}}));
+      await falaVoce(op.txt);
+      if(op.rola){
+        await espera(260);
+        document.querySelector(op.rola).scrollIntoView({behavior:'smooth'});
+        await espera(900);
+        mostraOpcoes(lista);   /* os atalhos continuam ali pra quem voltar */
+      }else{
+        toca(op.vai);
+      }
+    };
+    caixaOpcoes.appendChild(b);
+  });
+  desce();
+}
+
+async function toca(id){
+  const bloco=ROTEIRO[id]; if(!bloco) return;
+  for(const m of (bloco.msgs||[])){ await falaEla(m); await espera(260) }
+  if(bloco.opcoes){ await espera(200); passoAtual=id; mostraOpcoes(bloco.opcoes); rolar.classList.add('ver'); return }
+  if(bloco.vai){ await espera(320); toca(bloco.vai) }
+}
+
+function abreLupa(src){document.getElementById('lupaImg').src=src;document.getElementById('lupa').classList.add('ver')}
+document.getElementById('lupa').onclick=e=>e.currentTarget.classList.remove('ver');
+document.querySelectorAll('[data-zoom]').forEach(f=>f.onclick=()=>abreLupa(f.dataset.zoom));
+
+const olho=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('ver'); olho.unobserve(e.target) } })
+},{threshold:.15});
+document.querySelectorAll('.aparece').forEach(e=>olho.observe(e));
+
+const olhoFluxo=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ document.querySelectorAll('.passo').forEach(p=>p.classList.add('ver')); olhoFluxo.disconnect() } })
+},{threshold:.3});
+olhoFluxo.observe(document.getElementById('fluxo'));
+
+const olhoCapa=new IntersectionObserver(es=>{
+  es.forEach(e=>barra.classList.toggle('ver',!e.isIntersecting))
+},{threshold:.25});
+olhoCapa.observe(document.getElementById('capa'));
+
+setTimeout(()=>toca('inicio'),600);
+
+/* ============================================================
+   4. NÚMEROS (grava visita, resposta do chat, seção vista e clique
+      em comprar na tabela direct_events do Supabase do creators).
+      Se falhar, a página continua funcionando normalmente.
+      Onde ver: creators.laradam.com/admin > aba "Direct".
+   ============================================================ */
+(function(){
+  const URL_SB='https://mfrmnquvwwuxraqgemyh.supabase.co/rest/v1/direct_events';
+  const CHAVE='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1mcm1ucXV2d3d1eHJhcWdlbXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDI1NDIsImV4cCI6MjA4NzYxODU0Mn0.zmsi08dV5L1IlXJSr34vOii71w0g0OsD5_5DKio5g-o';
+
+  let visitante;
+  try{
+    visitante=localStorage.getItem('direct_vid');
+    if(!visitante){ visitante='v'+Date.now().toString(36)+Math.random().toString(36).slice(2,8); localStorage.setItem('direct_vid',visitante) }
+  }catch(e){ visitante='anon' }
+
+  function grava(dados){
+    try{
+      fetch(URL_SB,{
+        method:'POST',keepalive:true,
+        headers:{'Content-Type':'application/json','apikey':CHAVE,'Authorization':'Bearer '+CHAVE,'Prefer':'return=minimal'},
+        body:JSON.stringify(Object.assign({
+          session_id:visitante,
+          page_path:location.pathname,
+          referrer:document.referrer||null,
+          user_agent:navigator.userAgent
+        },dados))
+      }).catch(()=>{});
+    }catch(e){}
+  }
+  window.registra=grava;
+
+  grava({event_type:'visita'});
+
+  /* resposta clicada no chat */
+  window.addEventListener('direct:chat',e=>grava({event_type:'chat',passo:e.detail.passo,escolha:e.detail.escolha}));
+
+  /* seção vista (só uma vez cada) */
+  const jaViu=new Set();
+  const olhoSecao=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting&&!jaViu.has(e.target.id)){
+        jaViu.add(e.target.id);
+        grava({event_type:'secao',passo:e.target.id});
+      }
+    })
+  },{threshold:.2});
+  ['como','curso','duvidas'].forEach(id=>olhoSecao.observe(document.getElementById(id)));
+
+  /* clique em comprar */
+  document.querySelectorAll('[data-cta]').forEach(a=>{
+    const onde = a.closest('.barra') ? 'barra' : (a.closest('.preco-caixa') ? 'preco' : 'final');
+    a.addEventListener('click',()=>grava({event_type:'clique',cta:onde,to_checkout:CHECKOUT!=='#'}));
+  });
+})();
+</script>
+</body>
+</html>
