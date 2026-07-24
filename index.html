@@ -227,6 +227,23 @@ h3{font-size:18.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 7px}
 .claude-card{background:#fff;border-color:#E7D3C9}
 .claude-card img{display:block;margin-bottom:13px}
 .ico{width:34px;height:34px;display:block;margin-bottom:13px;color:var(--salvia)}
+/* no celular os cartões viram carrossel pra arrastar; do tablet pra cima voltam a ser grade */
+.carrossel{
+  display:flex;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;scroll-padding-left:20px;
+  margin:0 -20px;padding:2px 20px 12px;   /* sangra até a beirada da tela */
+  scrollbar-width:none;-webkit-overflow-scrolling:touch
+}
+.carrossel::-webkit-scrollbar{display:none}
+.carrossel>.cartao{flex:0 0 78%;max-width:320px;scroll-snap-align:start}
+.carrossel:focus-visible{outline:2px solid var(--salvia);outline-offset:4px;border-radius:22px}
+.dica-arrasta{color:var(--cinza);font-size:12.5px;letter-spacing:.04em;margin:0;text-align:right}
+@media (min-width:720px){
+  .carrossel{display:grid;gap:14px;margin:0;padding:0;overflow:visible}
+  .carrossel>.cartao{flex:none;max-width:none}
+  .carrossel>.largo{grid-column:1/-1}
+  .dica-arrasta{display:none}
+}
 .num{width:34px;height:34px;border-radius:50%;background:var(--salvia-fundo);color:var(--escuro);display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:17px;margin-bottom:14px}
 
 /* o fluxo */
@@ -539,7 +556,7 @@ footer a{color:var(--salvia)}
       <p class="sub">Nada de empilhar assinatura. Pra construir o sistema inteiro, a única ferramenta paga do caminho é o Claude, a partir do plano Pro. O resto é de graça.</p>
     </div>
 
-    <div class="grade tres aparece">
+    <div class="grade tres carrossel aparece" id="precisa" tabindex="0" role="region" aria-label="o que você precisa">
       <div class="cartao claude-card">
         <img src="img/claude.svg" alt="" width="34" height="34" loading="lazy" decoding="async">
         <h3>Claude, plano Pro</h3>
@@ -555,12 +572,12 @@ footer a{color:var(--salvia)}
         <h3>Um computador</h3>
         <p>Windows ou Mac, tanto faz. A construção é feita nele. Depois que o sistema está no ar, você mexe no painel pelo celular numa boa.</p>
       </div>
+      <div class="cartao largo">
+        <h3>E o sistema pronto, quanto custa por mês?</h3>
+        <p>Nada. Depois de construído, ele roda no Supabase (o banco e o cérebro), no GitHub Pages (o painel) e na API do Instagram, todos em plano grátis. Uma ferramenta de automação pronta cobraria de R$100 a R$300 todo mês, pra sempre.</p>
+      </div>
     </div>
-
-    <div class="cartao aparece" style="margin-top:16px">
-      <h3>E o sistema pronto, quanto custa por mês?</h3>
-      <p>Nada. Depois de construído, ele roda no Supabase (o banco e o cérebro), no GitHub Pages (o painel) e na API do Instagram, todos em plano grátis. Uma ferramenta de automação pronta cobraria de R$100 a R$300 todo mês, pra sempre.</p>
-    </div>
+    <p class="dica-arrasta" aria-hidden="true">arraste para o lado →</p>
 
     <div class="quem-sou aparece">
       <img src="img/lara.jpeg" alt="Lara Dam" loading="lazy" decoding="async">
