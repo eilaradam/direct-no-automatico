@@ -76,7 +76,7 @@ body{
    TELA 1
    ========================================================================== */
 /* ---- base: celular (sem a conversa: a capa já é o título e as infos) ---- */
-.capa{position:relative;z-index:1;min-height:100dvh;display:flex;align-items:center;justify-content:center;gap:48px;padding:36px 22px 30px;max-width:1280px;margin:0 auto}
+.capa{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:48px;padding:34px 22px 8px;max-width:1280px;margin:0 auto}
 
 .pitch{max-width:560px;flex:1 1 auto}
 .pitch h1{line-height:.96;letter-spacing:-.045em;font-weight:800;margin:18px 0 0;font-size:clamp(40px,13vw,62px)}
@@ -108,7 +108,7 @@ body{
 
 /* ---- do tablet pra cima: o celular vira maquete e o título aparece ---- */
 @media (min-width:560px){
-  .capa{padding:26px 24px 34px}
+  .capa{min-height:100dvh;padding:26px 24px 34px}   /* a tela cheia só vale onde tem a maquete do celular */
   .capa-cta{display:none}
   .so-cel{display:none}
   .so-grande{display:block}
