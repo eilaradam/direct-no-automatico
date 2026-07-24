@@ -75,26 +75,41 @@ body{
 /* ==========================================================================
    TELA 1
    ========================================================================== */
-/* ---- base: celular (a conversa ocupa a tela toda) ---- */
-.capa{position:relative;z-index:1;min-height:100dvh;display:flex;align-items:center;justify-content:center;gap:48px;padding:0;max-width:1280px;margin:0 auto}
+/* ---- base: celular (sem a conversa: a capa já é o título e as infos) ---- */
+.capa{position:relative;z-index:1;min-height:100dvh;display:flex;align-items:center;justify-content:center;gap:48px;padding:36px 22px 30px;max-width:1280px;margin:0 auto}
 
-/* no celular o título existe só pra leitor de tela e pro Google, porque ali a conversa É a capa */
-.pitch{max-width:560px;flex:1 1 auto;position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.pitch h1{line-height:.96;letter-spacing:-.045em;font-weight:800;margin:18px 0 0;font-size:clamp(44px,7vw,60px)}
+.pitch{max-width:560px;flex:1 1 auto}
+.pitch h1{line-height:.96;letter-spacing:-.045em;font-weight:800;margin:18px 0 0;font-size:clamp(40px,13vw,62px)}
 .pitch h1 em{display:block;font-family:var(--serif);font-style:italic;font-weight:400;color:var(--salvia);letter-spacing:-.012em;font-size:.97em;margin-top:4px}
 .pitch p{color:var(--cinza);line-height:1.55;font-size:16.5px;margin:0 0 18px;max-width:520px}
-.pitch .mini{display:flex;gap:20px;font-size:13.5px;color:var(--cinza);flex-wrap:wrap}
+.pitch .mini{display:flex;gap:10px 20px;font-size:13.5px;color:var(--cinza);flex-wrap:wrap}
 .pitch .mini b{color:var(--escuro);font-weight:700}
 
+/* aviso de JavaScript desligado: no celular não precisa, porque lá a capa já é texto */
+.sem-js{display:none}
+@media (min-width:560px){
+  .sem-js{display:block;position:fixed;inset:0;z-index:90;background:var(--creme);padding:40px 24px;overflow:auto;text-align:center}
+}
+
+/* botões que só existem no celular, já que ali não tem a conversa pra guiar */
+.capa-cta{display:flex;flex-direction:column;gap:11px;margin-top:26px}
+.capa-cta .link-como{text-align:center;color:var(--cinza);font-size:13.5px;font-weight:600;text-decoration:none;padding:5px}
+
+/* o celular com a conversa só aparece do tablet pra cima */
 .fone{
+  display:none;
   position:relative;width:100%;height:100dvh;background:var(--branco);
-  display:flex;flex-direction:column;overflow:hidden;flex:none;
+  flex-direction:column;overflow:hidden;flex:none;
 }
 
 /* ---- do tablet pra cima: o celular vira maquete e o título aparece ---- */
 @media (min-width:560px){
   .capa{padding:26px 24px 34px}
+  .capa-cta{display:none}
+  /* do tablet pra cima o título some de novo (fica só pra leitor de tela) até os 640 */
+  .pitch{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
   .fone{
+    display:flex;
     width:340px;max-width:100%;height:min(640px,calc(100dvh - 60px));
     border-radius:38px;border:1px solid var(--borda);
     box-shadow:0 40px 80px -34px rgba(44,51,40,.34),0 0 0 9px #FFF,0 0 0 10px var(--borda);
@@ -405,6 +420,11 @@ footer a{color:var(--salvia)}
       <span><b>33 mil</b> caracteres de prompt</span>
       <span><b>R$0</b> de mensalidade no sistema</span>
     </div>
+
+    <div class="capa-cta">
+      <a class="botao" href="#" target="_blank" rel="noopener" data-cta>Quero o Direct no Automático</a>
+      <a class="link-como" href="#como">ver como funciona ↓</a>
+    </div>
   </div>
 
   <main class="fone">
@@ -437,7 +457,7 @@ footer a{color:var(--salvia)}
   </div>
 
   <noscript>
-    <div style="position:fixed;inset:0;z-index:90;background:var(--creme);padding:40px 24px;overflow:auto;text-align:center">
+    <div class="sem-js">
       <h2 style="margin-bottom:10px">Direct <em>no automático</em></h2>
       <p class="sub" style="margin:0 auto 24px">A conversa da capa precisa de JavaScript pra rodar, mas o conteúdo do curso está tudo aqui embaixo. É só rolar a página.</p>
       <a class="botao" style="max-width:340px;margin:0 auto" href="https://pay.kiwify.com.br/P4X2IfL" target="_blank" rel="noopener">Quero o Direct no Automático</a>
@@ -930,7 +950,17 @@ const olhoCapa=new IntersectionObserver(es=>{
 },{threshold:.25});
 olhoCapa.observe(document.getElementById('capa'));
 
-setTimeout(()=>toca('inicio'),600);
+/* no celular a conversa nem existe (a capa é o título), então o roteiro só roda
+   do tablet pra cima. Se a pessoa virar o celular e a maquete aparecer, começa ali. */
+const semFone=window.matchMedia('(max-width:559px)');
+let chatComecou=false;
+function comecaChat(){
+  if(chatComecou||semFone.matches) return;
+  chatComecou=true;
+  setTimeout(()=>toca('inicio'),600);
+}
+comecaChat();
+semFone.addEventListener('change',comecaChat);
 
 /* ============================================================
    4. NÚMEROS (grava visita, resposta do chat, seção vista e clique
@@ -983,7 +1013,7 @@ setTimeout(()=>toca('inicio'),600);
 
   /* clique em comprar */
   document.querySelectorAll('[data-cta]').forEach(a=>{
-    const onde = a.closest('.barra') ? 'barra' : (a.closest('.preco-caixa') ? 'preco' : 'final');
+    const onde = a.closest('.barra') ? 'barra' : (a.closest('.capa-cta') ? 'capa' : (a.closest('.preco-caixa') ? 'preco' : 'final'));
     a.addEventListener('click',()=>grava({event_type:'clique',cta:onde,to_checkout:CHECKOUT!=='#'}));
   });
 
