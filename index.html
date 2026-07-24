@@ -413,7 +413,20 @@ footer a{color:var(--salvia)}
    vêm antes. Do tablet pra cima nada disso vale e tudo volta a ser grade.
    ========================================================================== */
 .dica-arrasta{display:none}
+/* no celular a lista de aulas fica só com os nomes; o botão abre as descrições */
+.abre-aulas{display:none}
 @media (max-width:719px){
+  .aulas li{padding:13px 8px 13px 48px}
+  .aulas li::before{top:13px;font-size:17px}
+  .aulas span{display:none}
+  .aulas.aberta li{padding-bottom:15px}
+  .aulas.aberta span{display:block}
+  .abre-aulas{
+    display:block;width:100%;margin-top:14px;padding:13px;
+    background:none;border:1px solid var(--borda);border-radius:12px;
+    color:var(--cinza);font:600 13.5px/1 'Inter',sans-serif;letter-spacing:.02em;cursor:pointer
+  }
+
   .carrossel{
     display:flex;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;
     scroll-snap-type:x mandatory;scroll-padding-left:20px;
@@ -613,7 +626,7 @@ footer a{color:var(--salvia)}
       <p class="sub">Do zero absoluto até o sistema no ar respondendo de verdade. Gravadas com a minha tela, mostrando cada clique, no ritmo de quem nunca fez isso na vida.</p>
     </div>
 
-    <ol class="aulas aparece">
+    <ol class="aulas aparece" id="listaAulas">
       <li><b>Boas-vindas</b><span>O que você vai construir e como aproveitar o curso sem se perder.</span></li>
       <li><b>Apresentação</b><span>Quem eu sou e por que eu resolvi construir o meu próprio sistema em vez de alugar um.</span></li>
       <li><b>Como funciona o meu sistema</b><span>O passeio por dentro: o que acontece do comentário até a mensagem chegar no direct.</span></li>
@@ -621,11 +634,12 @@ footer a{color:var(--salvia)}
       <li><b>A sua automação</b><span>A sua primeira automação de pé: a palavra comentada virando mensagem automática.</span></li>
       <li><b>Sistema no ar + publicando</b><span>O seu painel publicado na internet, funcionando de verdade e acessível de qualquer lugar.</span></li>
       <li><b>Conectando ao Supabase</b><span>A memória do sistema: onde ficam as suas automações, os seus leads e o histórico de envio.</span></li>
-      <li><b>Como comprar o seu domínio</b><span>Colocar o painel no seu próprio endereço, com a sua cara. <i class="tag-breve">em breve</i></span></li>
+      <li><b>Como comprar o seu domínio <i class="tag-breve">em breve</i></b><span>Colocar o painel no seu próprio endereço, com a sua cara.</span></li>
       <li><b>API do Meta</b><span>A parte que mais trava todo mundo, destravada passo a passo, com as ciladas já resolvidas.</span></li>
       <li><b>Política de Privacidade</b><span>O que a Meta exige pra aprovar o seu app.</span></li>
       <li><b>Extra</b><span>Os detalhes que fazem diferença depois que tudo já está rodando.</span></li>
     </ol>
+    <button class="abre-aulas" type="button" aria-expanded="false" aria-controls="listaAulas">ver o que tem em cada aula ↓</button>
 
     <div class="prompt-card aparece">
       <div>
@@ -969,6 +983,16 @@ document.querySelectorAll('[data-zoom]').forEach(f=>{
   f.onclick=()=>abreLupa(f.dataset.zoom);
   f.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();abreLupa(f.dataset.zoom)} });
 });
+
+/* no celular a lista de aulas começa só com os nomes */
+(function(){
+  const bt=document.querySelector('.abre-aulas'), lista=document.getElementById('listaAulas');
+  bt.onclick=()=>{
+    const aberta=lista.classList.toggle('aberta');
+    bt.setAttribute('aria-expanded',aberta);
+    bt.textContent=aberta?'esconder os detalhes ↑':'ver o que tem em cada aula ↓';
+  };
+})();
 
 const olho=new IntersectionObserver(es=>{
   es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('ver'); olho.unobserve(e.target) } })
