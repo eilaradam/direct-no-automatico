@@ -227,23 +227,7 @@ h3{font-size:18.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 7px}
 .claude-card{background:#fff;border-color:#E7D3C9}
 .claude-card img{display:block;margin-bottom:13px}
 .ico{width:34px;height:34px;display:block;margin-bottom:13px;color:var(--salvia)}
-/* no celular os cartões viram carrossel pra arrastar; do tablet pra cima voltam a ser grade */
-.carrossel{
-  display:flex;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;
-  scroll-snap-type:x mandatory;scroll-padding-left:20px;
-  margin:0 -20px;padding:2px 20px 12px;   /* sangra até a beirada da tela */
-  scrollbar-width:none;-webkit-overflow-scrolling:touch
-}
-.carrossel::-webkit-scrollbar{display:none}
-.carrossel>.cartao{flex:0 0 78%;max-width:320px;scroll-snap-align:start}
-.carrossel:focus-visible{outline:2px solid var(--salvia);outline-offset:4px;border-radius:22px}
-.dica-arrasta{color:var(--cinza);font-size:12.5px;letter-spacing:.04em;margin:0;text-align:right}
-@media (min-width:720px){
-  .carrossel{display:grid;gap:14px;margin:0;padding:0;overflow:visible}
-  .carrossel>.cartao{flex:none;max-width:none}
-  .carrossel>.largo{grid-column:1/-1}
-  .dica-arrasta{display:none}
-}
+@media (min-width:720px){.carrossel>.largo{grid-column:1/-1}}
 .num{width:34px;height:34px;border-radius:50%;background:var(--salvia-fundo);color:var(--escuro);display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:17px;margin-bottom:14px}
 
 /* o fluxo */
@@ -421,6 +405,29 @@ footer a{color:var(--salvia)}
 .opcoes button:focus-visible{outline-offset:2px}
 
 /* se as animações estiverem desligadas no sistema, nada pode ficar invisível */
+/* ==========================================================================
+   CARROSSÉIS DO CELULAR
+   Blocos com a classe .carrossel viram uma fileira pra arrastar abaixo de
+   720px (as peças do sistema, o fluxo, o que você precisa, a comparação).
+   Fica no fim da folha de propósito: assim ganha das regras de grade que
+   vêm antes. Do tablet pra cima nada disso vale e tudo volta a ser grade.
+   ========================================================================== */
+.dica-arrasta{display:none}
+@media (max-width:719px){
+  .carrossel{
+    display:flex;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;scroll-padding-left:20px;
+    margin-left:-20px;margin-right:-20px;   /* sangra até a beirada da tela */
+    padding:2px 20px 12px;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch
+  }
+  .carrossel::-webkit-scrollbar{display:none}
+  .fluxo.carrossel{margin-bottom:0}   /* a dica encosta nos cartões; o espaço vem do título seguinte */
+  .carrossel>*{flex:0 0 78%;max-width:320px;scroll-snap-align:start;margin:0}
+  .carrossel:focus-visible{outline:2px solid var(--salvia);outline-offset:4px;border-radius:22px}
+  .dica-arrasta{display:block;color:var(--cinza);font-size:12.5px;letter-spacing:.04em;margin:2px 0 0;text-align:right}
+}
+
 @media (prefers-reduced-motion:reduce){
   .aparece,.passo{opacity:1!important;transform:none!important}
 }
@@ -499,7 +506,7 @@ footer a{color:var(--salvia)}
       <p class="sub">Alguém comenta uma palavra no seu post. O seu sistema responde o comentário e manda a mensagem no direct dessa pessoa na hora, com botões, entregando o que ela pediu. E o contato fica salvo com você.</p>
     </div>
 
-    <div class="fluxo" id="fluxo">
+    <div class="fluxo carrossel" id="fluxo" tabindex="0" role="region" aria-label="como funciona, passo a passo">
       <div class="passo">
         <div class="tag">1. ela comenta</div>
         <div class="post">
@@ -526,18 +533,20 @@ footer a{color:var(--salvia)}
         </div>
       </div>
     </div>
+    <p class="dica-arrasta" aria-hidden="true">arraste para o lado →</p>
 
     <div class="aparece">
       <h2 style="font-size:clamp(25px,4vw,34px);margin-top:64px">Por dentro são só <em>4 peças</em></h2>
       <p class="sub">E no curso cada uma delas vem traduzida pra português de gente normal.</p>
     </div>
 
-    <div class="grade quatro aparece">
+    <div class="grade quatro carrossel aparece" tabindex="0" role="region" aria-label="as 4 peças do sistema">
       <div class="cartao"><div class="num">1</div><h3>A chave</h3><p>A API do Meta é a permissão que deixa o seu sistema ler comentários e mandar mensagens. É onde quase todo mundo empaca, e por isso ela está mastigada aula por aula.</p></div>
       <div class="cartao"><div class="num">2</div><h3>O cérebro</h3><p>Um programinha na nuvem que fica escutando o Instagram. Sempre que alguém comenta, ele é avisado na hora e decide o que fazer.</p></div>
       <div class="cartao"><div class="num">3</div><h3>A memória</h3><p>O banco de dados guarda as suas automações, os seus leads e o histórico de envio. Tudo na sua conta, não na conta de uma empresa.</p></div>
       <div class="cartao"><div class="num">4</div><h3>O controle</h3><p>O painel onde você cria as automações clicando. Escolhe a palavra, escreve a mensagem, monta os botões. Sem tocar em código.</p></div>
     </div>
+    <p class="dica-arrasta" aria-hidden="true">arraste para o lado →</p>
 
     <div class="grade dois aparece" style="margin-top:46px">
       <div>
@@ -630,7 +639,7 @@ footer a{color:var(--salvia)}
       <div class="prompt-num"><b>33.000</b>caracteres</div>
     </div>
 
-    <div class="compara aparece">
+    <div class="compara carrossel aparece" tabindex="0" role="region" aria-label="alugar uma ferramenta pronta ou construir o seu">
       <div class="lado">
         <span class="tag-lado">alugando uma ferramenta pronta</span>
         <ul>
@@ -653,6 +662,7 @@ footer a{color:var(--salvia)}
         </ul>
       </div>
     </div>
+    <p class="dica-arrasta" aria-hidden="true">arraste para o lado →</p>
 
     <div id="preco" style="margin-top:70px;text-align:center;scroll-margin-top:24px" class="aparece">
       <h2 style="font-size:clamp(26px,4.4vw,38px)">Quanto <em>custa</em></h2>
